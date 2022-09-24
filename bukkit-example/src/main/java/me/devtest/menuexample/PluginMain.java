@@ -56,9 +56,9 @@ public class PluginMain extends JavaPlugin implements Listener {
     public void buildAndOpenMenu(@NonNull Player player) {
         // Example basis for new default menu
         final DefaultBukkitMenu defaultBukkitMenu = bukkitMenuProvider.createDefault(
-                ChatColor.translateAlternateColorCodes('&', "&7&lTest default menu."),
-                3,
-                true
+                ChatColor.translateAlternateColorCodes('&', "&7&lTest default menu."), // title
+                3, // rows
+                true // cancel move item when click
         );
 
         // Example item
