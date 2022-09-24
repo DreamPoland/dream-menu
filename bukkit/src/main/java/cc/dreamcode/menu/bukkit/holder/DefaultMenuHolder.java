@@ -27,12 +27,12 @@ public class DefaultMenuHolder implements BukkitMenuHolder {
      */
     @Override
     public Inventory getInventory() {
-        return this.defaultBukkitMenu.build().getInventory();
+        return this.defaultBukkitMenu.getInventory();
     }
 
     @Override
     public void open(@NonNull HumanEntity humanEntity) {
-        humanEntity.openInventory(this.defaultBukkitMenu.build().getInventory());
+        humanEntity.openInventory(this.defaultBukkitMenu.getInventory());
     }
 
     @Override

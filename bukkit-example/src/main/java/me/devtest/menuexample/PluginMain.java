@@ -3,7 +3,6 @@ package me.devtest.menuexample;
 import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
 import cc.dreamcode.menu.bukkit.base.DefaultBukkitMenu;
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
-import cc.dreamcode.menu.bukkit.item.ItemBuilder;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,12 +13,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.annotation.plugin.ApiVersion;
 import org.bukkit.plugin.java.annotation.plugin.Description;
 import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.Website;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
+
+import java.util.Collections;
 
 @Plugin(name = "Dream-Menu-Example", version = "1.0-SNAPSHOT")
 @Author("Ravis96")
@@ -59,11 +61,16 @@ public class PluginMain extends JavaPlugin implements Listener {
                 true
         );
 
-        // Example item (easy with ItemBuilder)
-        final ItemStack item = new ItemBuilder(Material.BOOK)
-                .setName(ChatColor.translateAlternateColorCodes('&', "&cTest item"))
-                .setLore(ChatColor.translateAlternateColorCodes('&', "&7Test lore"))
-                .toItemStack();
+        // Example item
+        final ItemStack item = new ItemStack(Material.BOOK);
+        final ItemMeta itemMeta = item.getItemMeta();
+
+        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cTest item"));
+        itemMeta.setLore(Collections.singletonList(
+                ChatColor.translateAlternateColorCodes('&', "&7Test lore")
+        ));
+
+        item.setItemMeta(itemMeta);
 
         // Example item for defaultBukkitMenu above.
         defaultBukkitMenu.addItem(item, e -> {

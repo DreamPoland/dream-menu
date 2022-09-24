@@ -2,6 +2,7 @@ package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.core.DreamMenu;
+import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,8 +13,8 @@ import java.util.function.Consumer;
 
 public class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder> {
 
-    private final int rows;
-    private final Inventory inventory;
+    @Getter private final int rows;
+    @Getter private final Inventory inventory;
     private final DefaultMenuHolder defaultMenuHolder;
 
     public DefaultBukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick) {
