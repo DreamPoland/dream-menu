@@ -6,19 +6,18 @@ import java.util.function.Consumer;
 
 /**
  * Interface of menu base.
- * @param <P> HumanEntity/Player
- * @param <I> Item
+ * @param <I> Itemstack
  * @param <E> InventoryClickEvent
  */
 public interface DreamMenu<I, E, H> {
 
-    void addItem(@NonNull I i);
+    void addItem(@NonNull I itemstack);
 
-    void addItem(@NonNull I i, @NonNull Consumer<E> e);
+    void addItem(@NonNull I itemstack, @NonNull Consumer<E> event);
 
-    void setItem(int slot, @NonNull I i);
+    void setItem(int slot, @NonNull I itemstack);
 
-    void setItem(int slot, @NonNull I i, @NonNull Consumer<E> e);
+    void setItem(int slot, @NonNull I itemstack, @NonNull Consumer<E> event);
 
     H build();
 }

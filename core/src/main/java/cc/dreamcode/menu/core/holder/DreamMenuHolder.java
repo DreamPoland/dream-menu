@@ -5,9 +5,8 @@ import lombok.NonNull;
 /**
  * Interface of menu holder.
  * @param <P> HumanEntity/Player
- * @param <E> InventoryClickEvent
  */
 public interface DreamMenuHolder<P> {
 
-    void open(@NonNull P p);
+    void open(@NonNull P player);
 }

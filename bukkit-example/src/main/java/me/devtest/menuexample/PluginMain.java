@@ -82,4 +82,5 @@ public class PluginMain extends JavaPlugin implements Listener {
         final DefaultMenuHolder defaultMenuHolder = defaultBukkitMenu.build();
         defaultMenuHolder.open(player);
     }
+
 }

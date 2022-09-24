@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
-public class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder> {
+public final class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder> {
 
     @Getter private final int rows;
     @Getter private final Inventory inventory;
@@ -34,10 +34,10 @@ public class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryClickEve
     }
 
     @Override
-    public void addItem(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> e) {
+    public void addItem(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         for (int slot = 0; slot < this.rows * 9 - 1; slot++) {
             if (this.inventory.getItem(slot) == null) {
-                this.defaultMenuHolder.setActionOnSlot(slot, e);
+                this.defaultMenuHolder.setActionOnSlot(slot, event);
                 this.inventory.setItem(slot, itemStack);
                 return;
             }
@@ -51,8 +51,8 @@ public class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryClickEve
     }
 
     @Override
-    public void setItem(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> e) {
-        this.defaultMenuHolder.setActionOnSlot(slot, e);
+    public void setItem(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        this.defaultMenuHolder.setActionOnSlot(slot, event);
         this.inventory.setItem(slot, itemStack);
     }
 

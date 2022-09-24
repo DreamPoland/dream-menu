@@ -9,33 +9,34 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-public class BukkitMenuListener implements Listener {
+public final class BukkitMenuListener implements Listener {
 
     @EventHandler
-    public void onClick(InventoryClickEvent e) {
-        final Inventory inventory = e.getInventory();
+    private void onInventoryClick(InventoryClickEvent event) {
+        final Inventory inventory = event.getInventory();
         if (!inventory.getType().equals(InventoryType.CHEST)) {
             return;
         }
 
-        InventoryHolder inventoryHolder = inventory.getHolder();
+        final InventoryHolder inventoryHolder = inventory.getHolder();
         if (inventoryHolder instanceof BukkitMenuHolder) {
-            BukkitMenuHolder bukkitMenuHolder = (BukkitMenuHolder) inventoryHolder;
-            bukkitMenuHolder.handleClick(e);
+            final BukkitMenuHolder bukkitMenuHolder = (BukkitMenuHolder) inventoryHolder;
+            bukkitMenuHolder.handleClick(event);
         }
     }
 
     @EventHandler
-    public void onInteract(InventoryInteractEvent e) {
-        final Inventory inventory = e.getInventory();
+    private void onInventoryInteract(InventoryInteractEvent event) {
+        final Inventory inventory = event.getInventory();
         if (!inventory.getType().equals(InventoryType.CHEST)) {
             return;
         }
 
-        InventoryHolder inventoryHolder = inventory.getHolder();
+        final InventoryHolder inventoryHolder = inventory.getHolder();
         if (inventoryHolder instanceof BukkitMenuHolder) {
-            BukkitMenuHolder bukkitMenuHolder = (BukkitMenuHolder) inventoryHolder;
-            bukkitMenuHolder.handleClick(e);
+            final BukkitMenuHolder bukkitMenuHolder = (BukkitMenuHolder) inventoryHolder;
+            bukkitMenuHolder.handleClick(event);
         }
     }
+
 }
