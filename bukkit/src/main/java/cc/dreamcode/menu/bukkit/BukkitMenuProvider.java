@@ -7,7 +7,7 @@ import lombok.NonNull;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-public class BukkitMenuProvider implements DreamMenuProvider<DefaultBukkitMenu> {
+public final class BukkitMenuProvider implements DreamMenuProvider<DefaultBukkitMenu> {
 
     public static BukkitMenuProvider create(@NonNull Plugin plugin) {
         final PluginManager pluginManager = plugin.getServer().getPluginManager();
@@ -20,4 +20,5 @@ public class BukkitMenuProvider implements DreamMenuProvider<DefaultBukkitMenu> 
     public DefaultBukkitMenu createDefault(@NonNull String title, int rows, boolean cancelInventoryClick) {
         return new DefaultBukkitMenu(title, rows, cancelInventoryClick);
     }
+
 }

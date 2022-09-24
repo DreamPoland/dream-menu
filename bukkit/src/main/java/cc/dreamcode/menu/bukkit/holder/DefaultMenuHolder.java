@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-public class DefaultMenuHolder implements BukkitMenuHolder {
+public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     private final DefaultBukkitMenu defaultBukkitMenu;
     @Getter private final boolean cancelInventoryClick;
