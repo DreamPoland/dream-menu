@@ -9,5 +9,5 @@ import lombok.NonNull;
  */
 public interface DreamMenuHolder<P> {
 
-    void open(@NonNull P p);
+    void open(@NonNull P customer);
 }
