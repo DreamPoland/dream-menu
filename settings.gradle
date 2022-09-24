@@ -1,0 +1,5 @@
+rootProject.name = 'dream-menu'
+
+include 'core'
+include 'bukkit'
+include 'bukkit-example'

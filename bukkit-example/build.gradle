@@ -1,0 +1,18 @@
+dependencies {
+    // -- spigot api --
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+
+    // -- bukkit plugin.yml replacer --
+    compileOnly "org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT"
+    annotationProcessor "org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT"
+
+    // -- dream-menu --
+    implementation project(":core")
+    implementation project(":bukkit")
+
+    // -- lombok --
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}

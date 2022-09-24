@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'checkstyle'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+allprojects {
+    group 'cc.dreamcode'
+    version '0.1-SNAPSHOT'
+
+    apply plugin: 'java-library'
+    apply plugin: 'checkstyle'
+
+    java {
+        withSourcesJar()
+    }
+
+    idea {
+        project {
+            jdkName = "17"
+            languageLevel = "8"
+        }
+    }
+
+    compileJava.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    checkstyle {
+        toolVersion '10.3.1'
+        maxWarnings = 0
+    }
+
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.required = false
+            html.required = true
+        }
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://papermc.io/repo/repository/maven-public/" }
+    }
+}
+
+subprojects {
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
