@@ -1,4 +1,4 @@
 # dream-menu
-A library for easy menu making for minecraft.
+Inventory API with simple use and serialization.
 
 In-Dev build
