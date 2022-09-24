@@ -9,6 +9,7 @@ import java.util.function.Consumer;
  *
  * @param <I> ItemStack
  * @param <E> InventoryClickEvent
+ * @param <H> MenuHolder
  */
 public interface DreamMenu<I, E, H> {
 
