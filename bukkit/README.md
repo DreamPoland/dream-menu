@@ -1,6 +1,5 @@
-### Maven
 Require ``core`` module to work.
-
+### Maven
 Add these declarations to your ``pom.xml``
 
 ```xml

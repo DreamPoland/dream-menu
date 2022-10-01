@@ -1,6 +1,5 @@
-### Maven
 Require ``core``, ``bukkit``, ``serdes-bukkit`` modules to work.
-
+### Maven
 Add these declarations to your ``pom.xml``
 
 ```xml
