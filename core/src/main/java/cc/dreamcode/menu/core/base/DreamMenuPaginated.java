@@ -9,6 +9,7 @@ public interface DreamMenuPaginated<M, I, E, H> {
 
     M getMenuPlatform();
 
+    List<H> getViewers();
     int getPlayerPage(@NonNull H h);
 
     void setNextPageSlot(int slot, @NonNull Consumer<H> lastPageReach);

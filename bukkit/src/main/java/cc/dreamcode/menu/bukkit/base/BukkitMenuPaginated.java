@@ -24,6 +24,18 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     }
 
     @Override
+    public List<HumanEntity> getViewers() {
+        final List<HumanEntity> viewers = new ArrayList<>();
+
+        this.bukkitMenuMap.values()
+                .stream()
+                .map(bukkitMenu -> bukkitMenu.getInventory().getViewers())
+                .forEach(viewers::addAll);
+
+        return viewers;
+    }
+
+    @Override
     public int getPlayerPage(@NonNull HumanEntity humanEntity) {
         return this.cacheSlotPlayerViewing.getOrDefault(humanEntity.getUniqueId(), 0);
     }
