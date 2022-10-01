@@ -1,0 +1,17 @@
+dependencies {
+    implementation project(":core")
+    implementation project(":bukkit")
+    implementation project(":serdes-bukkit")
+
+    // -- spigot api --
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+
+    // -- okaeri-config --
+    implementation "eu.okaeri:okaeri-configs-core:4.0.6"
+
+    // -- lombok --
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}

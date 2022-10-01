@@ -37,7 +37,7 @@ public class PluginMain extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        // Create an instance of menus.
+        // Create an instance of menus. (required)
         this.bukkitMenuProvider = BukkitMenuProvider.create(this);
 
         // Register event below.

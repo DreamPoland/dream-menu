@@ -170,4 +170,13 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
                 .ifPresent(bukkitMenu -> bukkitMenu.open(humanEntity));
     }
 
+    @Override
+    public void openLastPage(@NonNull HumanEntity humanEntity) {
+        this.bukkitMenuMap.entrySet()
+                .stream()
+                .max(Comparator.comparingInt(Map.Entry::getKey))
+                .map(Map.Entry::getValue)
+                .ifPresent(bukkitMenu -> bukkitMenu.open(humanEntity));
+    }
+
 }
