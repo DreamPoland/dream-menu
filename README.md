@@ -17,9 +17,9 @@ Add these declarations to your ``pom.xml``
 ```
 ```xml
 <dependency>
-  <groupId>cc.dreamcode.menu</groupId>
-  <artifactId>bukkit</artifactId>
-  <version>0.3-SNAPSHOT</version>
+    <groupId>cc.dreamcode.menu</groupId>
+    <artifactId>core</artifactId>
+    <version>0.3-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -30,5 +30,5 @@ Add these declarations to your ``build.gradle``
 maven { url "https://repo.dreamcode.cc/snapshots" }
 ```
 ```gradle
-implementation "cc.dreamcode.menu:bukkit:0.3-SNAPSHOT"
+implementation "cc.dreamcode.menu:core:0.3-SNAPSHOT"
 ```
