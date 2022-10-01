@@ -2,15 +2,17 @@ plugins {
     id 'java'
     id 'idea'
     id 'checkstyle'
+    id 'maven-publish'
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 allprojects {
-    group 'cc.dreamcode'
-    version '0.1.1-SNAPSHOT'
+    group 'cc.dreamcode.menu'
+    version '0.1-SNAPSHOT'
 
     apply plugin: 'java-library'
     apply plugin: 'checkstyle'
+    apply plugin: 'maven-publish'
 
     java {
         withSourcesJar()
@@ -52,4 +54,42 @@ subprojects {
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+
+    compileJava.options.encoding = 'UTF-8'
+
+    publishing {
+        repositories {
+            maven {
+                if (version.toString().endsWith("-SNAPSHOT")) {
+                    name = "snapshots"
+                    url = uri("https://repo.dreamcode.cc/snapshots")
+                } else {
+                    name = "releases"
+                    url = uri("https://repo.dreamcode.cc/releases")
+                }
+
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_TOKEN")
+                }
+            }
+        }
+        publications {
+            libraries(MavenPublication) {
+                from components.java
+
+                pom.withXml {
+                    def repositories = asNode().appendNode('repositories')
+
+                    project.getRepositories().findAll { repo ->
+                        if (repo.getUrl().toString().startsWith('http')) {
+                            def repository = repositories.appendNode('repository')
+                            repository.appendNode('id', repo.getDisplayName())
+                            repository.appendNode('url', repo.getUrl().toString())
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,4 +1,32 @@
 # dream-menu
-Inventory API with simple use and serialization.
+Inventory API with simple use and serialization. (indev)
 
-In-Dev build
+# Usage: (snapshot)
+
+### Maven
+Add these declarations to your ``pom.xml``
+
+```xml
+<repository>
+  <id>dream-repository-snapshots</id>
+  <name>DreamCode | Repository</name>
+  <url>https://repo.dreamcode.cc/snapshots</url>
+</repository>
+```
+```xml
+<dependency>
+  <groupId>cc.dreamcode.menu</groupId>
+  <artifactId>bukkit</artifactId>
+  <version>0.1-SNAPSHOT</version>
+</dependency>
+```
+
+### Gradle
+Add these declarations to your ``build.gradle``
+
+```gradle
+maven { url "https://repo.dreamcode.cc/snapshots" }
+```
+```gradle
+implementation "cc.dreamcode.menu:bukkit:0.1-SNAPSHOT"
+```
