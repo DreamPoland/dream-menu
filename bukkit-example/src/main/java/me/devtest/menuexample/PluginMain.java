@@ -89,7 +89,7 @@ public class PluginMain extends JavaPlugin implements Listener {
                 )
         );
 
-        // Or use customer to add background items
+        // Or use consumer to add background items
         final BukkitMenuPaginated bukkitMenuPaginatedWithBackground = this.bukkitMenuProvider.createPaginated(
                 // Default background without items etc.
                 this.bukkitMenuProvider.createDefault(
