@@ -1,7 +1,9 @@
 # dream-menu
 Inventory API with simple use and serialization. (indev)
 
-# Usage: (snapshot)
+Find example in [bukkit-example](https://github.com/DreamPoland/dream-menu/blob/master/bukkit-example/src/main/java/me/devtest/menuexample) plugin.
+
+# Installation: (snapshot)
 
 ### Maven
 Add these declarations to your ``pom.xml``
@@ -17,7 +19,7 @@ Add these declarations to your ``pom.xml``
 <dependency>
   <groupId>cc.dreamcode.menu</groupId>
   <artifactId>bukkit</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
 </dependency>
 ```
 

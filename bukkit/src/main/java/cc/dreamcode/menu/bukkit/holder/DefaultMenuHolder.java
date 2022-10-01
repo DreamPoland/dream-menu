@@ -1,6 +1,6 @@
 package cc.dreamcode.menu.bukkit.holder;
 
-import cc.dreamcode.menu.bukkit.base.DefaultBukkitMenu;
+import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public final class DefaultMenuHolder implements BukkitMenuHolder {
 
-    private final DefaultBukkitMenu defaultBukkitMenu;
+    private final BukkitMenu bukkitMenu;
     @Getter private final boolean cancelInventoryClick;
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
 
@@ -27,17 +27,27 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
      */
     @Override
     public Inventory getInventory() {
-        return this.defaultBukkitMenu.getInventory();
+        return this.bukkitMenu.getInventory();
     }
 
     @Override
     public void open(@NonNull HumanEntity humanEntity) {
-        humanEntity.openInventory(this.defaultBukkitMenu.getInventory());
+        humanEntity.openInventory(this.bukkitMenu.getInventory());
+    }
+
+    @Override
+    public Map<Integer, Consumer<InventoryClickEvent>> getSlotActions() {
+        return this.inventoryActions;
     }
 
     @Override
     public void setActionOnSlot(int slot, @NonNull Consumer<InventoryClickEvent> consumer) {
         this.inventoryActions.put(slot, consumer);
+    }
+
+    @Override
+    public void removeActionOnSlot(int slot) {
+        this.inventoryActions.remove(slot);
     }
 
     /**

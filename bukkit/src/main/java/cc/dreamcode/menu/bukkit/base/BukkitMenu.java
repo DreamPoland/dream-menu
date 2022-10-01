@@ -1,47 +1,57 @@
 package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
-import cc.dreamcode.menu.core.DreamMenu;
+import cc.dreamcode.menu.core.base.DreamMenu;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
-public final class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder> {
+public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
 
+    @Getter private final String title;
     @Getter private final int rows;
+    @Getter private final boolean cancelInventoryClick;
     @Getter private final Inventory inventory;
     private final DefaultMenuHolder defaultMenuHolder;
 
-    public DefaultBukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick) {
+    public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, int page) {
+        this.title = title;
         this.rows = rows;
+        this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
-        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title);
+        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title
+                .replace("%PAGE%", String.valueOf(page)));
     }
 
     @Override
-    public void addItem(@NonNull ItemStack itemStack) {
+    public int addItem(@NonNull ItemStack itemStack) {
         for (int slot = 0; slot < this.rows * 9; slot++) {
             if (this.inventory.getItem(slot) == null) {
                 this.inventory.setItem(slot, itemStack);
-                return;
+                return slot;
             }
         }
+
+        return -1;
     }
 
     @Override
-    public void addItem(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+    public int addItem(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         for (int slot = 0; slot < this.rows * 9 - 1; slot++) {
             if (this.inventory.getItem(slot) == null) {
                 this.defaultMenuHolder.setActionOnSlot(slot, event);
                 this.inventory.setItem(slot, itemStack);
-                return;
+                return slot;
             }
         }
+
+        return -1;
     }
 
 
@@ -57,8 +67,22 @@ public final class DefaultBukkitMenu implements DreamMenu<ItemStack, InventoryCl
     }
 
     @Override
-    public DefaultMenuHolder build() {
+    public DefaultMenuHolder getHolder() {
         return this.defaultMenuHolder;
     }
 
+    @Override
+    public void open(@NonNull HumanEntity humanEntity) {
+        this.getHolder().open(humanEntity);
+    }
+
+    public BukkitMenu cloneMenu(int slot) {
+        final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.rows, this.cancelInventoryClick, slot);
+
+        bukkitMenu.getInventory().setContents(this.inventory.getContents());
+        this.getHolder().getSlotActions().forEach((integer, inventoryClickEventConsumer) ->
+                bukkitMenu.getHolder().setActionOnSlot(integer, inventoryClickEventConsumer));
+
+        return bukkitMenu;
+    }
 }
