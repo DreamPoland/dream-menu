@@ -8,6 +8,8 @@ import lombok.NonNull;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, BukkitMenuPaginated> {
@@ -34,14 +36,20 @@ public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, B
 
     @Override
     public BukkitMenuPaginated createPaginated(@NonNull BukkitMenu bukkitMenu) {
-        return new BukkitMenuPaginated(bukkitMenu);
+        final Map<Integer, BukkitMenu> bukkitMenuMap = new HashMap<>();
+        bukkitMenuMap.put(0, bukkitMenu.cloneMenu(0));
+
+        return new BukkitMenuPaginated(bukkitMenu, bukkitMenuMap);
     }
 
     @Override
     public BukkitMenuPaginated createPaginated(@NonNull BukkitMenu bukkitMenu, @NonNull Consumer<BukkitMenu> consumer) {
         consumer.accept(bukkitMenu);
 
-        return new BukkitMenuPaginated(bukkitMenu);
+        final Map<Integer, BukkitMenu> bukkitMenuMap = new HashMap<>();
+        bukkitMenuMap.put(0, bukkitMenu.cloneMenu(0));
+
+        return new BukkitMenuPaginated(bukkitMenu, bukkitMenuMap);
     }
 
 }

@@ -1,6 +1,7 @@
 package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.core.base.DreamMenuPaginated;
+import cc.dreamcode.menu.core.features.optional.CustomOptional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.HumanEntity;
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
 public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemStack, InventoryClickEvent, HumanEntity> {
 
     private final BukkitMenu menuPlatform;
-    private final Map<Integer, BukkitMenu> bukkitMenuMap = new HashMap<>();
+    private final Map<Integer, BukkitMenu> bukkitMenuMap;
     private final Map<UUID, Integer> cacheSlotPlayerViewing = new HashMap<>();
 
     @Override
@@ -161,11 +162,12 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     public void open(int page, @NonNull HumanEntity humanEntity) {
         BukkitMenu bukkitMenu = this.bukkitMenuMap.get(page);
         if (bukkitMenu == null) {
+            this.openFirstPage(humanEntity);
             return;
         }
         this.cacheSlotPlayerViewing.put(humanEntity.getUniqueId(), page);
 
-        bukkitMenu.getHolder().open(humanEntity);
+        bukkitMenu.open(humanEntity);
     }
 
     @Override
@@ -175,20 +177,26 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
     @Override
     public void openFirstPage(@NonNull HumanEntity humanEntity) {
-        this.bukkitMenuMap.entrySet()
+        CustomOptional.of(this.bukkitMenuMap.entrySet()
                 .stream()
                 .min(Comparator.comparingInt(Map.Entry::getKey))
-                .map(Map.Entry::getValue)
-                .ifPresent(bukkitMenu -> bukkitMenu.open(humanEntity));
+                .map(Map.Entry::getKey))
+                .ifPresentOrElse(page -> this.open(page, humanEntity),
+                        () -> {
+                            throw new RuntimeException("Paginated menu does not have any pages to show.");
+                        });
     }
 
     @Override
     public void openLastPage(@NonNull HumanEntity humanEntity) {
-        this.bukkitMenuMap.entrySet()
+        CustomOptional.of(this.bukkitMenuMap.entrySet()
                 .stream()
                 .max(Comparator.comparingInt(Map.Entry::getKey))
-                .map(Map.Entry::getValue)
-                .ifPresent(bukkitMenu -> bukkitMenu.open(humanEntity));
+                .map(Map.Entry::getKey))
+                .ifPresentOrElse(page -> this.open(page, humanEntity),
+                        () -> {
+                            throw new RuntimeException("Paginated menu does not have any pages to show.");
+                        });
     }
 
 }

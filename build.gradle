@@ -8,7 +8,7 @@ plugins {
 
 allprojects {
     group 'cc.dreamcode.menu'
-    version '0.3.4'
+    version '0.3.5'
 
     apply plugin: 'java-library'
     apply plugin: 'checkstyle'
