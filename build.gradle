@@ -8,7 +8,7 @@ plugins {
 
 allprojects {
     group 'cc.dreamcode.menu'
-    version '0.3.1'
+    version '0.3.2'
 
     apply plugin: 'java-library'
     apply plugin: 'checkstyle'
@@ -31,18 +31,6 @@ allprojects {
         options.encoding = 'UTF-8'
     }
 
-    checkstyle {
-        toolVersion '10.3.1'
-        maxWarnings = 0
-    }
-
-    tasks.withType(Checkstyle) {
-        reports {
-            xml.required = false
-            html.required = true
-        }
-    }
-
     repositories {
         mavenCentral()
         maven { url "https://papermc.io/repo/repository/maven-public/" }
@@ -55,8 +43,6 @@ subprojects {
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-
-    compileJava.options.encoding = 'UTF-8'
 
     publishing {
         repositories {
