@@ -6,7 +6,7 @@ Add these declarations to your ``pom.xml``
 <dependency>
   <groupId>cc.dreamcode.menu</groupId>
   <artifactId>bukkit</artifactId>
-  <version>0.3.3</version>
+  <version>0.3.4</version>
 </dependency>
 ```
 
@@ -14,5 +14,5 @@ Add these declarations to your ``pom.xml``
 Add these declarations to your ``build.gradle``
 
 ```gradle
-implementation "cc.dreamcode.menu:bukkit:0.3.3"
+implementation "cc.dreamcode.menu:bukkit:0.3.4"
 ```
