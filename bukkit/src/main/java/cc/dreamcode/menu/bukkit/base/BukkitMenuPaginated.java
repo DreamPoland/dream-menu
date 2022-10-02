@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemStack, InventoryClickEvent, HumanEntity> {
 
     private final BukkitMenu menuPlatform;
-    private final Map<Integer, BukkitMenu> bukkitMenuMap;
+    private final Map<Integer, BukkitMenu> bukkitMenuMap = new HashMap<>();
     private final Map<UUID, Integer> cacheSlotPlayerViewing = new HashMap<>();
 
     @Override
@@ -167,7 +167,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
         }
         this.cacheSlotPlayerViewing.put(humanEntity.getUniqueId(), page);
 
-        bukkitMenu.open(humanEntity);
+        bukkitMenu.getHolder().open(humanEntity);
     }
 
     @Override
@@ -181,22 +181,19 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
                 .stream()
                 .min(Comparator.comparingInt(Map.Entry::getKey))
                 .map(Map.Entry::getKey))
-                .ifPresentOrElse(page -> this.open(page, humanEntity),
-                        () -> {
-                            throw new RuntimeException("Paginated menu does not have any pages to show.");
-                        });
+                .ifPresentOrElse(page -> this.open(page, humanEntity), () -> {
+                    this.bukkitMenuMap.put(0, this.getMenuPlatform().cloneMenu(0));
+                    this.openFirstPage(humanEntity);
+                });
     }
 
     @Override
     public void openLastPage(@NonNull HumanEntity humanEntity) {
-        CustomOptional.of(this.bukkitMenuMap.entrySet()
+        this.bukkitMenuMap.entrySet()
                 .stream()
                 .max(Comparator.comparingInt(Map.Entry::getKey))
-                .map(Map.Entry::getKey))
-                .ifPresentOrElse(page -> this.open(page, humanEntity),
-                        () -> {
-                            throw new RuntimeException("Paginated menu does not have any pages to show.");
-                        });
+                .map(Map.Entry::getKey)
+                .ifPresent(page -> this.open(page, humanEntity));
     }
 
 }
