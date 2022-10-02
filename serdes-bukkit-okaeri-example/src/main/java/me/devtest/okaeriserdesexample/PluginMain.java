@@ -55,7 +55,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         if (e.getItem() != null &&
                 e.getItem().getType().equals(Material.STICK)) {
             if (e.getAction().equals(Action.LEFT_CLICK_AIR)) {
-                final BukkitMenu bukkitMenu = new TestMenu(this.pluginConfig).apply(player); // build with custom setup
+                final BukkitMenu bukkitMenu = new TestMenu(this.pluginConfig).build(); // build with custom setup
                 bukkitMenu.open(player); // open player inventory
             }
         }

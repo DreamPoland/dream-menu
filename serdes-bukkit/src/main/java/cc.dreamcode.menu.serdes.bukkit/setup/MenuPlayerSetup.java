@@ -1,6 +1,5 @@
 package cc.dreamcode.menu.serdes.bukkit.setup;
 
-import cc.dreamcode.menu.bukkit.base.BukkitMenuPaginated;
 import lombok.NonNull;
 import org.bukkit.entity.HumanEntity;
 
@@ -9,8 +8,8 @@ import org.bukkit.entity.HumanEntity;
  * Here you can apply event on slots, add custom items in real-time and what you want.
  * This class works like consumer class.
  */
-public interface MenuPaginatedSetup {
+public interface MenuPlayerSetup<M> {
 
-    BukkitMenuPaginated apply(@NonNull HumanEntity humanEntity);
+    M build(@NonNull HumanEntity humanEntity);
 
 }
