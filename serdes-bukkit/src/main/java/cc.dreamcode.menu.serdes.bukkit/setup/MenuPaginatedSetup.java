@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.serdes.bukkit;
+package cc.dreamcode.menu.serdes.bukkit.setup;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenuPaginated;
 import lombok.NonNull;

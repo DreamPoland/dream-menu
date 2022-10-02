@@ -1,6 +1,6 @@
 package cc.dreamcode.menu.serdes.bukkit.okaeri;
 
-import cc.dreamcode.menu.serdes.bukkit.MenuBuilder;
+import cc.dreamcode.menu.serdes.bukkit.BukkitMenuBuilder;
 import eu.okaeri.configs.schema.GenericsDeclaration;
 import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
@@ -12,14 +12,14 @@ import org.bukkit.inventory.ItemStack;
  * Required Yaml-Bukkit serdes pack from okaeri-config.
  * Add this class to your config serdes pack.
  */
-public class MenuBuilderSerdes implements ObjectSerializer<MenuBuilder> {
+public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
     /**
      * @param type the type checked for compatibility
      * @return {@code true} if serializer is able to process the {@code type}
      */
     @Override
-    public boolean supports(@NonNull Class<? super MenuBuilder> type) {
-        return MenuBuilder.class.isAssignableFrom(type);
+    public boolean supports(@NonNull Class<? super BukkitMenuBuilder> type) {
+        return BukkitMenuBuilder.class.isAssignableFrom(type);
     }
 
     /**
@@ -28,7 +28,7 @@ public class MenuBuilderSerdes implements ObjectSerializer<MenuBuilder> {
      * @param generics the generic information about the {@code object}
      */
     @Override
-    public void serialize(@NonNull MenuBuilder object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
+    public void serialize(@NonNull BukkitMenuBuilder object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
         data.add("name", object.getName());
         data.add("rows", object.getRows());
         data.add("cancel-inventory-click", object.isCancelInventoryClick());
@@ -41,8 +41,8 @@ public class MenuBuilderSerdes implements ObjectSerializer<MenuBuilder> {
      * @return the deserialized object
      */
     @Override
-    public MenuBuilder deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
-        return new MenuBuilder(
+    public BukkitMenuBuilder deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
+        return new BukkitMenuBuilder(
                 data.get("name", String.class),
                 data.get("rows", Integer.class),
                 data.get("cancel-inventory-click", Boolean.class),

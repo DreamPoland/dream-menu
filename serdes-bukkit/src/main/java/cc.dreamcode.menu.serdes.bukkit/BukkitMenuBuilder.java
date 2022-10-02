@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
-public class MenuBuilder {
+public class BukkitMenuBuilder {
 
     private final String name;
     private final int rows;

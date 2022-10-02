@@ -1,8 +1,8 @@
 package me.devtest.okaeriserdesexample.menu;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
-import cc.dreamcode.menu.serdes.bukkit.MenuBuilder;
-import cc.dreamcode.menu.serdes.bukkit.MenuSetup;
+import cc.dreamcode.menu.serdes.bukkit.BukkitMenuBuilder;
+import cc.dreamcode.menu.serdes.bukkit.setup.MenuSetup;
 import cc.dreamcode.menu.serdes.bukkit.helper.ItemHelper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +17,10 @@ public class TestMenu implements MenuSetup {
 
     @Override
     public BukkitMenu apply(@NonNull HumanEntity humanEntity) {
-        final MenuBuilder menuBuilder = this.pluginConfig.menuBuilder;
-        final BukkitMenu bukkitMenu = menuBuilder.build(); // or with items
+        final BukkitMenuBuilder bukkitMenuBuilder = this.pluginConfig.bukkitMenuBuilder;
+        final BukkitMenu bukkitMenu = bukkitMenuBuilder.build(); // or with items
 
-        menuBuilder.getItems().forEach((integer, itemStack) -> { // scan all config items
+        bukkitMenuBuilder.getItems().forEach((integer, itemStack) -> { // scan all config items
             if (this.pluginConfig.alertSlot == integer) {
                 bukkitMenu.setItem(integer, new ItemHelper(itemStack).fixColors(null), e ->
                         humanEntity.sendMessage(ChatColor.translateAlternateColorCodes('&', this.pluginConfig.alertNotice)));
