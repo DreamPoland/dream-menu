@@ -182,7 +182,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
                 .min(Comparator.comparingInt(Map.Entry::getKey))
                 .map(Map.Entry::getKey))
                 .ifPresentOrElse(page -> this.open(page, humanEntity), () -> {
-                    this.bukkitMenuMap.put(0, this.getMenuPlatform().cloneMenu(0));
+                    this.bukkitMenuMap.put(0, this.getMenuPlatform().cloneMenu(1));
                     this.openFirstPage(humanEntity);
                 });
     }

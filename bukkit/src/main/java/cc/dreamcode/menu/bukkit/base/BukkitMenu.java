@@ -26,7 +26,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
         this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title
-                .replace("%PAGE%", String.valueOf(page)));
+                .replace("{page}", String.valueOf(page)));
     }
 
     @Override
