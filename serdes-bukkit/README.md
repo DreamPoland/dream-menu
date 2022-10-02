@@ -6,7 +6,7 @@ Add these declarations to your ``pom.xml``
 <dependency>
   <groupId>cc.dreamcode.menu</groupId>
   <artifactId>serdes-bukkit</artifactId>
-  <version>0.3</version>
+  <version>0.3.1</version>
 </dependency>
 ```
 
@@ -14,5 +14,5 @@ Add these declarations to your ``pom.xml``
 Add these declarations to your ``build.gradle``
 
 ```gradle
-implementation "cc.dreamcode.menu:serdes-bukkit:0.3"
+implementation "cc.dreamcode.menu:serdes-bukkit:0.3.1"
 ```

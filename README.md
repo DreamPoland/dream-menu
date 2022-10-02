@@ -19,7 +19,7 @@ Add these declarations to your ``pom.xml``
 <dependency>
     <groupId>cc.dreamcode.menu</groupId>
     <artifactId>core</artifactId>
-    <version>0.3</version>
+    <version>0.3.1</version>
 </dependency>
 ```
 
@@ -30,5 +30,5 @@ Add these declarations to your ``build.gradle``
 maven { url "https://repo.dreamcode.cc/releases" }
 ```
 ```gradle
-implementation "cc.dreamcode.menu:core:0.3"
+implementation "cc.dreamcode.menu:core:0.3.1"
 ```
