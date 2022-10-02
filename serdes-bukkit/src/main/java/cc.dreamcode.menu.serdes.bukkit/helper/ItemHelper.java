@@ -15,8 +15,8 @@ public class ItemHelper {
     private final ItemStack itemStack;
 
     public ItemStack fixColors(Map<String, String> replaceMap) {
-        ItemStack is = new ItemStack(this.itemStack);
-        ItemMeta im = is.getItemMeta();
+        final ItemStack is = new ItemStack(this.itemStack);
+        final ItemMeta im = is.getItemMeta();
         assert im != null;
 
         if(im.hasDisplayName()) {
