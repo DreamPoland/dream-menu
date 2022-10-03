@@ -1,15 +1,15 @@
 package me.devtest.okaeriserdesexample.menu;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
+import cc.dreamcode.menu.bukkit.setup.BukkitMenuSetup;
 import cc.dreamcode.menu.serdes.bukkit.BukkitMenuBuilder;
 import cc.dreamcode.menu.serdes.bukkit.helper.ItemHelper;
-import cc.dreamcode.menu.core.setup.MenuSetup;
 import lombok.RequiredArgsConstructor;
 import me.devtest.okaeriserdesexample.PluginConfig;
 import org.bukkit.ChatColor;
 
 @RequiredArgsConstructor
-public class TestMenu implements MenuSetup<BukkitMenu> {
+public class TestMenu implements BukkitMenuSetup {
 
     private final PluginConfig pluginConfig;
 
