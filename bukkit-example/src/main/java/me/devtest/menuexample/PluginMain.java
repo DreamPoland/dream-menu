@@ -92,7 +92,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         // Or use consumer to add background items
         final BukkitMenuPaginated bukkitMenuPaginatedWithBackground = this.bukkitMenuProvider.createPaginated(
                 this.bukkitMenuProvider.createDefault(
-                        ChatColor.translateAlternateColorCodes('&', "&7&lTest default menu. Page &c&l%PAGE%"), // title
+                        ChatColor.translateAlternateColorCodes('&', "&7&lTest default menu. Page &c&l{page}"), // title
                         3, // rows
                         false // cancel move item when click
                 ), bukkitMenu -> bukkitMenu.setItem(10, this.getExampleItem(), e -> {
