@@ -16,6 +16,13 @@ dependencies {
     implementation "eu.okaeri:okaeri-configs-yaml-bukkit:4.0.6"
     implementation "eu.okaeri:okaeri-configs-serdes-bukkit:4.0.6"
 
+    // -- placeholders --
+    implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.3'
+
+    // -- dream-utilities --
+    implementation "cc.dreamcode:utilities:1.0.3"
+    implementation "cc.dreamcode:utilities-bukkit:1.0.3"
+
     // -- lombok --
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'

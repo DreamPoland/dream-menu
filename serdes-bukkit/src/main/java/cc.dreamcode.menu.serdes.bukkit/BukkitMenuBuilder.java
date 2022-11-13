@@ -1,8 +1,10 @@
 package cc.dreamcode.menu.serdes.bukkit;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
-import cc.dreamcode.menu.serdes.bukkit.helper.ItemHelper;
-import cc.dreamcode.menu.serdes.bukkit.helper.PlaceholderHelper;
+import cc.dreamcode.utilities.bukkit.ChatUtil;
+import cc.dreamcode.utilities.bukkit.builders.ItemBuilder;
+import eu.okaeri.placeholders.context.PlaceholderContext;
+import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +31,12 @@ public class BukkitMenuBuilder {
         );
     }
 
-    public BukkitMenu build(@NonNull Map<String, String> replaceMap) {
+    public BukkitMenu build(@NonNull Map<String, Object> replaceMap) {
+        final CompiledMessage compiledMessage = CompiledMessage.of(this.name);
+        final PlaceholderContext placeholderContext = PlaceholderContext.of(compiledMessage);
+
         return new BukkitMenu(
-                new PlaceholderHelper(
-                    ChatColor.translateAlternateColorCodes('&', this.name)
-                ).replaceFromMap(replaceMap),
+                ChatUtil.fixColor(placeholderContext.with(replaceMap).apply()),
                 this.rows,
                 this.cancelInventoryClick,
                 0
@@ -49,23 +52,28 @@ public class BukkitMenuBuilder {
         );
 
         this.items.forEach(((integer, itemStack) ->
-                bukkitMenu.setItem(integer, new ItemHelper(itemStack).fixColors(null))));
+                bukkitMenu.setItem(integer, new ItemBuilder(itemStack)
+                        .fixColors()
+                        .toItemStack())));
 
         return bukkitMenu;
     }
 
-    public BukkitMenu buildWithItem(@NonNull Map<String, String> replaceMap) {
+    public BukkitMenu buildWithItem(@NonNull Map<String, Object> replaceMap) {
+        final CompiledMessage compiledMessage = CompiledMessage.of(this.name);
+        final PlaceholderContext placeholderContext = PlaceholderContext.of(compiledMessage);
+
         final BukkitMenu bukkitMenu = new BukkitMenu(
-                new PlaceholderHelper(
-                        ChatColor.translateAlternateColorCodes('&', this.name)
-                ).replaceFromMap(replaceMap),
+                ChatUtil.fixColor(placeholderContext.with(replaceMap).apply()),
                 this.rows,
                 this.cancelInventoryClick,
                 0
         );
 
         this.items.forEach(((integer, itemStack) ->
-                bukkitMenu.setItem(integer, new ItemHelper(itemStack).fixColors(replaceMap))));
+                bukkitMenu.setItem(integer, new ItemBuilder(itemStack)
+                        .fixColors(replaceMap)
+                        .toItemStack())));
 
         return bukkitMenu;
     }

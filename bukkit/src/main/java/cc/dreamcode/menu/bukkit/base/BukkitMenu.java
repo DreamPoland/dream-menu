@@ -2,6 +2,8 @@ package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.core.base.DreamMenu;
+import eu.okaeri.placeholders.context.PlaceholderContext;
+import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -21,12 +23,13 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     private final DefaultMenuHolder defaultMenuHolder;
 
     public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, int page) {
-        this.title = title;
+        final CompiledMessage compiledMessage = CompiledMessage.of(title);
+        final PlaceholderContext placeholderContext = PlaceholderContext.of(compiledMessage);
+        this.title = placeholderContext.with("page", page).apply();
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
-        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title
-                .replace("{page}", String.valueOf(page)));
+        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title);
     }
 
     @Override

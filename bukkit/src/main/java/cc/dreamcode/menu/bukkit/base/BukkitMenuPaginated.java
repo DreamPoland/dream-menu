@@ -1,7 +1,7 @@
 package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.core.base.DreamMenuPaginated;
-import cc.dreamcode.menu.core.features.optional.CustomOptional;
+import cc.dreamcode.utilities.optional.CustomOptional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.HumanEntity;
