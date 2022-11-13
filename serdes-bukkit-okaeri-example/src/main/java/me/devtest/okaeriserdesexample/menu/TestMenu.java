@@ -3,7 +3,7 @@ package me.devtest.okaeriserdesexample.menu;
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.menu.bukkit.setup.BukkitMenuSetup;
 import cc.dreamcode.menu.serdes.bukkit.BukkitMenuBuilder;
-import cc.dreamcode.utilities.bukkit.builders.ItemBuilder;
+import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import lombok.RequiredArgsConstructor;
 import me.devtest.okaeriserdesexample.PluginConfig;
 import org.bukkit.ChatColor;

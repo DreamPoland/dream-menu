@@ -2,7 +2,7 @@ package cc.dreamcode.menu.serdes.bukkit;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.utilities.bukkit.ChatUtil;
-import cc.dreamcode.utilities.bukkit.builders.ItemBuilder;
+import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
