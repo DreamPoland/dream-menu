@@ -14,7 +14,7 @@ public final class BukkitMenuListener implements Listener {
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
         final Inventory inventory = event.getInventory();
-        if (!inventory.getType().equals(InventoryType.CHEST)) {
+        if (inventory.getType() != InventoryType.CHEST) {
             return;
         }
 
@@ -28,7 +28,7 @@ public final class BukkitMenuListener implements Listener {
     @EventHandler
     private void onInventoryInteract(InventoryInteractEvent event) {
         final Inventory inventory = event.getInventory();
-        if (!inventory.getType().equals(InventoryType.CHEST)) {
+        if (inventory.getType() != InventoryType.CHEST) {
             return;
         }
 

@@ -57,7 +57,6 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         return -1;
     }
 
-
     @Override
     public void setItem(int slot, @NonNull ItemStack itemStack) {
         this.inventory.setItem(slot, itemStack);
@@ -88,4 +87,5 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
 
         return bukkitMenu;
     }
+
 }

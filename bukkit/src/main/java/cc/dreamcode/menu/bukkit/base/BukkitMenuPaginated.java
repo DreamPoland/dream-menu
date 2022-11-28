@@ -43,10 +43,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
     @Override
     public void setNextPageSlot(int slot, @NonNull Consumer<HumanEntity> nextPageReach) {
-        this.menuPlatform.getHolder().setActionOnSlot(slot, e -> {
-            e.setCancelled(true);
+        this.menuPlatform.getHolder().setActionOnSlot(slot, event -> {
+            event.setCancelled(true);
 
-            final HumanEntity humanEntity = e.getWhoClicked();
+            final HumanEntity humanEntity = event.getWhoClicked();
             final int nextPage = this.getPlayerPage(humanEntity) + 1;
 
             if (this.bukkitMenuMap.size() <= nextPage) {
@@ -66,10 +66,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
     @Override
     public void setPreviousPageSlot(int slot, @NonNull Consumer<HumanEntity> firstPageReach) {
-        this.menuPlatform.getHolder().setActionOnSlot(slot, e -> {
-            e.setCancelled(true);
+        this.menuPlatform.getHolder().setActionOnSlot(slot, event -> {
+            event.setCancelled(true);
 
-            final HumanEntity humanEntity = e.getWhoClicked();
+            final HumanEntity humanEntity = event.getWhoClicked();
             final int previousPage = this.getPlayerPage(humanEntity) - 1;
 
             if (0 > previousPage) {
@@ -88,12 +88,12 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     }
 
     @Override
-    public void addStorageItem(@NonNull BukkitMenu bukkitMenu, int page, @NonNull ItemStack itemStack, Consumer<InventoryClickEvent> event) {
+    public void addStorageItem(@NonNull BukkitMenu bukkitMenu, int page, @NonNull ItemStack itemStack, Consumer<InventoryClickEvent> inventoryClickEventConsumer) {
         final int slot = bukkitMenu.addItem(itemStack);
         if (slot != -1) {
-            if (event != null) {
-                bukkitMenu.getHolder().setActionOnSlot(slot, event.andThen(e -> {
-                    if (e.isCancelled()) {
+            if (inventoryClickEventConsumer != null) {
+                bukkitMenu.getHolder().setActionOnSlot(slot, inventoryClickEventConsumer.andThen(event -> {
+                    if (event.isCancelled()) {
                         return;
                     }
 
@@ -111,9 +111,9 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
         final int nextMenuSlot = nextMenu.get().addItem(itemStack);
         if (nextMenuSlot != -1) {
-            if (event != null) {
-                nextMenu.get().getHolder().setActionOnSlot(nextMenuSlot, event.andThen(e -> {
-                    if (e.isCancelled()) {
+            if (inventoryClickEventConsumer != null) {
+                nextMenu.get().getHolder().setActionOnSlot(nextMenuSlot, inventoryClickEventConsumer.andThen(event -> {
+                    if (event.isCancelled()) {
                         return;
                     }
 
