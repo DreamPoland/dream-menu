@@ -3,7 +3,7 @@ dependencies {
     implementation project(":bukkit")
 
     // -- spigot api --
-    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT'
 
     // -- placeholders --
     implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.3'
