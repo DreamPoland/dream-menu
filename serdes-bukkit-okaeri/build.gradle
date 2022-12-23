@@ -7,7 +7,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
     // -- okaeri-config --
-    implementation "eu.okaeri:okaeri-configs-core:4.0.6"
+    implementation "eu.okaeri:okaeri-configs-core:4.0.8"
 
     // -- lombok --
     compileOnly 'org.projectlombok:lombok:1.18.24'
