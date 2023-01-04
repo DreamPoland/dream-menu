@@ -14,7 +14,7 @@ dependencies {
     // -- okaeri-config --
     implementation "eu.okaeri:okaeri-configs-core:4.0.8"
     implementation "eu.okaeri:okaeri-configs-yaml-bukkit:4.0.8"
-    implementation "eu.okaeri:okaeri-configs-serdes-bukkit:4.0.8"
+    implementation "eu.okaeri:okaeri-configs-serdes-bukkit:4.0.9"
 
     // -- placeholders --
     implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.3'
