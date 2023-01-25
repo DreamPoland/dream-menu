@@ -17,7 +17,7 @@ dependencies {
     implementation "eu.okaeri:okaeri-configs-serdes-bukkit:4.0.8"
 
     // -- placeholders --
-    implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.3'
+    implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.4'
 
     // -- dream-utilities --
     implementation "cc.dreamcode:utilities:1.1"
