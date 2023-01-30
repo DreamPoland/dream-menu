@@ -22,6 +22,16 @@ public class BukkitMenuBuilder {
     private final boolean cancelInventoryClick;
     private final Map<Integer, ItemStack> items;
 
+    public BukkitMenuBuilder fillInventoryWith(@NonNull ItemStack itemStack) {
+        for (int slot = 0; slot < this.rows * 9; slot++) {
+            if (!this.items.containsKey(slot)) {
+                this.items.put(slot, itemStack);
+            }
+        }
+
+        return this;
+    }
+
     public BukkitMenu build() {
         return new BukkitMenu(
                 ChatColor.translateAlternateColorCodes('&', this.name),

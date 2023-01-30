@@ -70,6 +70,25 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     }
 
     @Override
+    public void fillInventoryWith(@NonNull ItemStack itemStack) {
+        for (int slot = 0; slot < this.rows * 9; slot++) {
+            if (this.inventory.getItem(slot) == null) {
+                this.inventory.setItem(slot, itemStack);
+            }
+        }
+    }
+
+    @Override
+    public void fillInventoryWith(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        for (int slot = 0; slot < this.rows * 9; slot++) {
+            if (this.inventory.getItem(slot) == null) {
+                this.inventory.setItem(slot, itemStack);
+                this.defaultMenuHolder.setActionOnSlot(slot, event);
+            }
+        }
+    }
+
+    @Override
     public DefaultMenuHolder getHolder() {
         return this.defaultMenuHolder;
     }
