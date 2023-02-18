@@ -6,15 +6,15 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
     // -- placeholders --
-    implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.4'
+    implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.7'
 
     // -- dream-utilities --
-    implementation "cc.dreamcode:utilities:1.1.1"
-    implementation "cc.dreamcode:utilities-bukkit:1.1.1"
+    implementation "cc.dreamcode:utilities:1.1.2"
+    implementation "cc.dreamcode:utilities-bukkit:1.1.2"
 
     // -- lombok --
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
