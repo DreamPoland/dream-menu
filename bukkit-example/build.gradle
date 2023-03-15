@@ -1,6 +1,6 @@
 dependencies {
     // -- spigot api --
-    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
 
     // -- bukkit plugin.yml replacer --
     compileOnly "org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT"
