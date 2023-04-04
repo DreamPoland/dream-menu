@@ -2,8 +2,4 @@ rootProject.name = 'dream-menu'
 
 include 'core'
 include 'bukkit'
-include 'bukkit-example'
-
-include 'serdes-bukkit'
-include 'serdes-bukkit-okaeri'
-include 'serdes-bukkit-okaeri-example'
+include 'bukkit:okaeri-bukkit'

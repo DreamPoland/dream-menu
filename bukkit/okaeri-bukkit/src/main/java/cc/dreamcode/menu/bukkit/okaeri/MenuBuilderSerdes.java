@@ -1,6 +1,6 @@
-package cc.dreamcode.menu.serdes.bukkit.okaeri;
+package cc.dreamcode.menu.bukkit.okaeri;
 
-import cc.dreamcode.menu.serdes.bukkit.BukkitMenuBuilder;
+import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
 import eu.okaeri.configs.schema.GenericsDeclaration;
 import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
@@ -31,7 +31,7 @@ public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
     public void serialize(@NonNull BukkitMenuBuilder object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
         data.add("name", object.getName());
         data.add("rows", object.getRows());
-        data.add("cancel-inventory-click", object.isCancelInventoryClick());
+        data.add("cancel-inventory-click", object.isDisabledActions());
         data.addAsMap("items", object.getItems(), Integer.class, ItemStack.class);
     }
 

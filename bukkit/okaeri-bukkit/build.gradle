@@ -1,14 +1,17 @@
+repositories {
+    maven { url "https://repo.codemc.io/repository/nms" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
 dependencies {
+    implementation project(":core")
+    implementation project(":bukkit")
+
     // -- spigot api --
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
-    // -- bukkit plugin.yml replacer --
-    compileOnly "org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT"
-    annotationProcessor "org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT"
-
-    // -- dream-menu --
-    implementation project(":core")
-    implementation project(":bukkit")
+    // -- okaeri-config --
+    implementation "eu.okaeri:okaeri-configs-core:4.0.9"
 
     // -- lombok --
     compileOnly 'org.projectlombok:lombok:1.18.26'
