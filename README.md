@@ -1,5 +1,5 @@
 # dream-menu
-Inventory API with simple use and serialization. (indev)
+Inventory API with simple use and serialization.
 
 Find example in [bukkit-example](https://github.com/DreamPoland/dream-menu/blob/master/bukkit-example/src/main/java/me/devtest/menuexample) plugin.
 
