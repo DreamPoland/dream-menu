@@ -1,6 +1,7 @@
 repositories {
     maven { url "https://repo.codemc.io/repository/nms" }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://nexus.iridiumdevelopment.net/repository/maven-releases/' }
 }
 
 dependencies {
@@ -15,6 +16,9 @@ dependencies {
     // -- dream-utilities --
     implementation "cc.dreamcode:utilities:1.2"
     implementation "cc.dreamcode:utilities-bukkit:1.2"
+
+    // -- IridiumColorAPI --
+    implementation "com.iridium:IridiumColorAPI:1.0.6"
 
     // -- lombok --
     compileOnly 'org.projectlombok:lombok:1.18.26'

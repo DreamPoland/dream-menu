@@ -2,6 +2,7 @@ package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.core.base.DreamMenu;
+import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
@@ -25,7 +26,8 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, int page) {
         final CompiledMessage compiledMessage = CompiledMessage.of(title);
         final PlaceholderContext placeholderContext = PlaceholderContext.of(compiledMessage);
-        this.title = placeholderContext.with("page", page).apply();
+
+        this.title = IridiumColorAPI.process(placeholderContext.with("page", page).apply());
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
