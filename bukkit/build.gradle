@@ -14,8 +14,8 @@ dependencies {
     implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.7'
 
     // -- dream-utilities --
-    implementation "cc.dreamcode:utilities:1.2"
-    implementation "cc.dreamcode:utilities-bukkit:1.2"
+    implementation "cc.dreamcode:utilities:1.2.4"
+    implementation "cc.dreamcode:utilities-bukkit:1.2.4"
 
     // -- IridiumColorAPI --
     implementation "com.iridium:IridiumColorAPI:1.0.6"
