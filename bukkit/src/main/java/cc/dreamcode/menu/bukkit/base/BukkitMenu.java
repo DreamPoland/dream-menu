@@ -2,9 +2,8 @@ package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.core.base.DreamMenu;
-import com.iridium.iridiumcolorapi.IridiumColorAPI;
-import eu.okaeri.placeholders.context.PlaceholderContext;
-import eu.okaeri.placeholders.message.CompiledMessage;
+import cc.dreamcode.utilities.builder.MapBuilder;
+import cc.dreamcode.utilities.bukkit.ChatUtil;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -13,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
@@ -24,13 +24,28 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     private final DefaultMenuHolder defaultMenuHolder;
 
     public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, int page) {
-        final CompiledMessage compiledMessage = CompiledMessage.of(title);
-        final PlaceholderContext placeholderContext = PlaceholderContext.of(compiledMessage);
 
-        this.title = IridiumColorAPI.process(placeholderContext.with("page", page).apply());
+        this.title = ChatUtil.fixColor(title, new MapBuilder<String, Object>()
+                .put("page", page)
+                .build());
+
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
+
+        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title);
+    }
+
+    public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, boolean cancelInventoryClick, int page) {
+        this.title = ChatUtil.fixColor(title, new MapBuilder<String, Object>()
+                .put("page", page)
+                .putAll(placeholders)
+                .build());
+
+        this.rows = rows;
+        this.cancelInventoryClick = cancelInventoryClick;
+        this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
+
         this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title);
     }
 

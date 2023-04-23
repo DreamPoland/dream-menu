@@ -2,7 +2,6 @@ package cc.dreamcode.menu.bukkit;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.menu.core.DreamMenuBuilder;
-import cc.dreamcode.utilities.bukkit.ChatUtil;
 import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,7 +17,7 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
     @Override
     public BukkitMenu buildEmpty() {
         return new BukkitMenu(
-                ChatUtil.fixColor(this.getName()),
+                this.getName(),
                 this.getRows(),
                 this.isDisabledActions(),
                 0
@@ -28,7 +27,8 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
     @Override
     public BukkitMenu buildEmpty(@NonNull Map<String, Object> replaceMap) {
         return new BukkitMenu(
-                ChatUtil.fixColor(this.getName(), replaceMap),
+                this.getName(),
+                replaceMap,
                 this.getRows(),
                 this.isDisabledActions(),
                 0
