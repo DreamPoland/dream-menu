@@ -33,7 +33,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
 
-        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title);
+        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, this.rows > 6 ? 6 * 9 : this.rows * 9, this.title);
     }
 
     public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, boolean cancelInventoryClick, int page) {
@@ -46,7 +46,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
 
-        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, rows > 6 ? 6 * 9 : rows * 9, title);
+        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, this.rows > 6 ? 6 * 9 : this.rows * 9, this.title);
     }
 
     @Override
