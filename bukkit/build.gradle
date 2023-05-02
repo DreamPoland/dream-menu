@@ -13,8 +13,8 @@ dependencies {
     implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.7'
 
     // -- dream-utilities --
-    implementation "cc.dreamcode:utilities:1.2.12"
-    implementation "cc.dreamcode:utilities-bukkit:1.2.12"
+    implementation "cc.dreamcode:utilities:1.2.13"
+    implementation "cc.dreamcode:utilities-bukkit:1.2.13"
 
     // -- lombok --
     compileOnly 'org.projectlombok:lombok:1.18.26'
