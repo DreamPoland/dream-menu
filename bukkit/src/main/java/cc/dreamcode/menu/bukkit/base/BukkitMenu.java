@@ -20,10 +20,11 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     @Getter private final String title;
     @Getter private final int rows;
     @Getter private final boolean cancelInventoryClick;
+    @Getter private final boolean disposeWhenClose;
     @Getter private final Inventory inventory;
     private final DefaultMenuHolder defaultMenuHolder;
 
-    public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, int page) {
+    public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, boolean disposeWhenClose, int page) {
 
         this.title = ChatUtil.fixColor(title, new MapBuilder<String, Object>()
                 .put("page", page)
@@ -31,12 +32,13 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
 
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
-        this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
+        this.disposeWhenClose = disposeWhenClose;
+        this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick, disposeWhenClose);
 
         this.inventory = Bukkit.createInventory(this.defaultMenuHolder, this.rows > 6 ? 6 * 9 : this.rows * 9, this.title);
     }
 
-    public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, boolean cancelInventoryClick, int page) {
+    public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, boolean cancelInventoryClick, boolean disposeWhenClose, int page) {
         this.title = ChatUtil.fixColor(title, new MapBuilder<String, Object>()
                 .put("page", page)
                 .putAll(placeholders)
@@ -44,7 +46,8 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
 
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
-        this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick);
+        this.disposeWhenClose = disposeWhenClose;
+        this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick, disposeWhenClose);
 
         this.inventory = Bukkit.createInventory(this.defaultMenuHolder, this.rows > 6 ? 6 * 9 : this.rows * 9, this.title);
     }
@@ -116,7 +119,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     }
 
     public BukkitMenu cloneMenu(int slot) {
-        final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.rows, this.cancelInventoryClick, slot);
+        final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.rows, this.cancelInventoryClick, this.disposeWhenClose, slot);
 
         bukkitMenu.getInventory().setContents(this.inventory.getContents());
         this.getHolder().getSlotActions().forEach((integer, inventoryClickEventConsumer) ->

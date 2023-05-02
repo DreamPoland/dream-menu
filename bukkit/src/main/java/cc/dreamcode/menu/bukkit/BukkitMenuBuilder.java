@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
 
-    public BukkitMenuBuilder(@NonNull String name, int rows, boolean disabledActions, Map<Integer, ItemStack> items) {
-        super(name, rows, disabledActions, items == null ? new HashMap<>() : items);
+    public BukkitMenuBuilder(@NonNull String name, int rows, boolean disabledActions, boolean disposeWhenClose, Map<Integer, ItemStack> items) {
+        super(name, rows, disabledActions, disposeWhenClose, items == null ? new HashMap<>() : items);
     }
 
     @Override
@@ -20,6 +20,7 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
                 this.getName(),
                 this.getRows(),
                 this.isDisabledActions(),
+                this.isDisposeWhenClose(),
                 0
         );
     }
@@ -31,6 +32,7 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
                 replaceMap,
                 this.getRows(),
                 this.isDisabledActions(),
+                this.isDisposeWhenClose(),
                 0
         );
     }

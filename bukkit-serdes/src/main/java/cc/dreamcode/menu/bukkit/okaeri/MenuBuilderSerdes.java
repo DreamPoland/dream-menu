@@ -31,7 +31,14 @@ public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
     public void serialize(@NonNull BukkitMenuBuilder object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
         data.add("name", object.getName());
         data.add("rows", object.getRows());
-        data.add("cancel-inventory-click", object.isDisabledActions());
+        if (!object.isDisabledActions()) {
+            data.add("cancel-inventory-click", object.isDisabledActions());
+        }
+
+        if (!object.isDisposeWhenClose()) {
+            data.add("dispose-when-close", object.isDisposeWhenClose());
+        }
+
         data.addAsMap("items", object.getItems(), Integer.class, ItemStack.class);
     }
 
@@ -45,7 +52,8 @@ public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
         return new BukkitMenuBuilder(
                 data.get("name", String.class),
                 data.get("rows", Integer.class),
-                data.get("cancel-inventory-click", Boolean.class),
+                data.containsKey("cancel-inventory-click") ? data.get("cancel-inventory-click", Boolean.class) : true,
+                data.containsKey("dispose-when-close") ? data.get("dispose-when-close", Boolean.class) : true,
                 data.getAsMap("items", Integer.class, ItemStack.class)
         );
     }

@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -18,6 +19,7 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     private final BukkitMenu bukkitMenu;
     @Getter private final boolean cancelInventoryClick;
+    @Getter private final boolean disposeWhenClose;
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
 
     /**
@@ -67,6 +69,16 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
         if (this.cancelInventoryClick) {
             event.setCancelled(true);
+        }
+    }
+
+    /**
+     * Void for event, do not call it - when you do not know what are you doing.
+     */
+    @Override
+    public void handleClose(@NonNull InventoryCloseEvent event) {
+        if (this.disposeWhenClose) {
+            this.dispose();
         }
     }
 

@@ -13,6 +13,7 @@ public abstract class DreamMenuBuilder<B, I> {
     private final String name;
     private final int rows;
     private final boolean disabledActions;
+    private final boolean disposeWhenClose;
     private final Map<Integer, I> items;
 
     public DreamMenuBuilder<B, I> fillInventoryWith(@NonNull I i) {
