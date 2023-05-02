@@ -70,4 +70,10 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
         }
     }
 
+    @Override
+    public void dispose() {
+        this.getInventory().clear();
+        this.inventoryActions.clear();
+    }
+
 }
