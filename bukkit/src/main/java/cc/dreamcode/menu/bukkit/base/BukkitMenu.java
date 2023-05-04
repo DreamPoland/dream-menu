@@ -123,6 +123,11 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.getHolder().open(humanEntity);
     }
 
+    @Override
+    public void dispose() {
+        this.getHolder().dispose();
+    }
+
     public BukkitMenu cloneMenu(int slot) {
         final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.rows, this.cancelInventoryClick, this.disposeWhenClose, slot);
 

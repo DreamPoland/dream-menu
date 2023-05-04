@@ -29,4 +29,6 @@ public interface DreamMenu<I, E, H, P> {
     H getHolder();
 
     void open(@NonNull P p);
+
+    void dispose();
 }

@@ -29,4 +29,6 @@ public interface DreamMenuPaginated<M, I, E, H> {
     void openPage(@NonNull H h);
     void openFirstPage(@NonNull H h);
     void openLastPage(@NonNull H h);
+
+    void dispose();
 }
