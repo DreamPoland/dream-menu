@@ -25,31 +25,36 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     private final DefaultMenuHolder defaultMenuHolder;
 
     public BukkitMenu(@NonNull String title, int rows, boolean cancelInventoryClick, boolean disposeWhenClose, int page) {
-
-        this.title = ChatUtil.fixColor(title, new MapBuilder<String, Object>()
-                .put("page", page)
-                .build());
-
+        this.title = title;
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.disposeWhenClose = disposeWhenClose;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick, disposeWhenClose);
 
-        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, this.rows > 6 ? 6 * 9 : this.rows * 9, this.title);
+        this.inventory = Bukkit.createInventory(
+                this.defaultMenuHolder,
+                this.rows > 6 ? 6 * 9 : this.rows * 9,
+                ChatUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .build())
+        );
     }
 
     public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, boolean cancelInventoryClick, boolean disposeWhenClose, int page) {
-        this.title = ChatUtil.fixColor(title, new MapBuilder<String, Object>()
-                .put("page", page)
-                .putAll(placeholders)
-                .build());
-
+        this.title = title;
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.disposeWhenClose = disposeWhenClose;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick, disposeWhenClose);
 
-        this.inventory = Bukkit.createInventory(this.defaultMenuHolder, this.rows > 6 ? 6 * 9 : this.rows * 9, this.title);
+        this.inventory = Bukkit.createInventory(
+                this.defaultMenuHolder,
+                this.rows > 6 ? 6 * 9 : this.rows * 9,
+                ChatUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .putAll(placeholders)
+                        .build())
+        );
     }
 
     @Override
