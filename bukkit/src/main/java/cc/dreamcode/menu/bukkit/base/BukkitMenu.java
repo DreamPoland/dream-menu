@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -21,6 +22,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     @Getter private final int rows;
     @Getter private final boolean cancelInventoryClick;
     @Getter private final boolean disposeWhenClose;
+    @Getter private final Map<String, Object> placeholders;
     @Getter private final Inventory inventory;
     private final DefaultMenuHolder defaultMenuHolder;
 
@@ -29,6 +31,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.disposeWhenClose = disposeWhenClose;
+        this.placeholders = new HashMap<>();
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick, disposeWhenClose);
 
         this.inventory = Bukkit.createInventory(
@@ -45,6 +48,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.rows = rows;
         this.cancelInventoryClick = cancelInventoryClick;
         this.disposeWhenClose = disposeWhenClose;
+        this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this, cancelInventoryClick, disposeWhenClose);
 
         this.inventory = Bukkit.createInventory(
@@ -129,7 +133,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     }
 
     public BukkitMenu cloneMenu(int slot) {
-        final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.rows, this.cancelInventoryClick, this.disposeWhenClose, slot);
+        final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.rows, this.cancelInventoryClick, this.disposeWhenClose, slot);
 
         bukkitMenu.getInventory().setContents(this.inventory.getContents());
         this.getHolder().getSlotActions().forEach((integer, inventoryClickEventConsumer) ->
