@@ -4,6 +4,7 @@ import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -18,8 +19,8 @@ import java.util.function.Consumer;
 public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     private final BukkitMenu bukkitMenu;
-    @Getter private final boolean cancelInventoryClick;
-    @Getter private final boolean disposeWhenClose;
+    @Getter @Setter private boolean cancelInventoryClick;
+    @Getter @Setter private boolean disposeWhenClose;
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
 
     /**

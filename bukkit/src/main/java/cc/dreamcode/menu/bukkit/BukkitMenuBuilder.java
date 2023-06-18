@@ -2,6 +2,7 @@ package cc.dreamcode.menu.bukkit;
 
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.menu.core.DreamMenuBuilder;
+import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,8 +11,8 @@ import java.util.Map;
 
 public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
 
-    public BukkitMenuBuilder(@NonNull String name, int rows, boolean disabledActions, boolean disposeWhenClose, Map<Integer, ItemStack> items) {
-        super(name, rows, disabledActions, disposeWhenClose, items == null ? new HashMap<>() : items);
+    public BukkitMenuBuilder(@NonNull String name, int rows, Map<Integer, ItemStack> items) {
+        super(name, rows, items == null ? new HashMap<>() : items);
     }
 
     @Override
@@ -19,8 +20,6 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
         return new BukkitMenu(
                 this.getName(),
                 this.getRows(),
-                this.isDisabledActions(),
-                this.isDisposeWhenClose(),
                 0
         );
     }
@@ -31,8 +30,6 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
                 this.getName(),
                 replaceMap,
                 this.getRows(),
-                this.isDisabledActions(),
-                this.isDisposeWhenClose(),
                 0
         );
     }
@@ -41,7 +38,10 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
     public BukkitMenu buildWithItems() {
         final BukkitMenu bukkitMenu = this.buildEmpty();
 
-        this.getItems().forEach(bukkitMenu::setItem);
+        this.getItems().forEach((slot, item) ->
+                bukkitMenu.setItem(slot, ItemBuilder.of(item)
+                        .fixColors()
+                        .toItemStack()));
 
         return bukkitMenu;
     }
@@ -50,7 +50,10 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
     public BukkitMenu buildWithItems(@NonNull Map<String, Object> replaceMap) {
         final BukkitMenu bukkitMenu = this.buildEmpty(replaceMap);
 
-        this.getItems().forEach(bukkitMenu::setItem);
+        this.getItems().forEach((slot, item) ->
+                bukkitMenu.setItem(slot, ItemBuilder.of(item)
+                        .fixColors(replaceMap)
+                        .toItemStack()));
 
         return bukkitMenu;
     }

@@ -20,13 +20,13 @@ public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, B
     }
 
     @Override
-    public BukkitMenu createDefault(@NonNull String title, int rows, boolean cancelInventoryClick, boolean disposeWhenClose) {
-        return new BukkitMenu(title, rows, cancelInventoryClick, disposeWhenClose, 0);
+    public BukkitMenu createDefault(@NonNull String title, int rows) {
+        return new BukkitMenu(title, rows, 0);
     }
 
     @Override
-    public BukkitMenu createDefault(@NonNull String title, int rows, boolean cancelInventoryClick, boolean disposeWhenClose, @NonNull Consumer<BukkitMenu> consumer) {
-        final BukkitMenu bukkitMenu = new BukkitMenu(title, rows, cancelInventoryClick, disposeWhenClose, 0);
+    public BukkitMenu createDefault(@NonNull String title, int rows, @NonNull Consumer<BukkitMenu> consumer) {
+        final BukkitMenu bukkitMenu = new BukkitMenu(title, rows, 0);
         consumer.accept(bukkitMenu);
 
         return bukkitMenu;
