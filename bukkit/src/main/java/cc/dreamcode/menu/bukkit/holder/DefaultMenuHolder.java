@@ -19,8 +19,8 @@ import java.util.function.Consumer;
 public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     private final BukkitMenu bukkitMenu;
-    @Getter @Setter private boolean cancelInventoryClick;
-    @Getter @Setter private boolean disposeWhenClose;
+    @Getter @Setter private boolean cancelInventoryClick = true;
+    @Getter @Setter private boolean disposeWhenClose = false;
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
 
     /**
