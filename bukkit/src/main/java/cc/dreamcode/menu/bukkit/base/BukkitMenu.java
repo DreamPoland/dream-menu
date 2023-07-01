@@ -131,6 +131,8 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
 
     public BukkitMenu cloneMenu(int slot) {
         final BukkitMenu bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.rows, slot);
+        bukkitMenu.setCancelInventoryClick(this.cancelInventoryClick);
+        bukkitMenu.setDisposeWhenClose(this.disposeWhenClose);
 
         bukkitMenu.getInventory().setContents(this.inventory.getContents());
         this.getHolder().getSlotActions().forEach((integer, inventoryClickEventConsumer) ->
