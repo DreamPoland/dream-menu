@@ -13,12 +13,12 @@ dependencies {
     implementation 'eu.okaeri:okaeri-placeholders-bukkit:4.0.7'
 
     // -- dream-utilities --
-    implementation "cc.dreamcode:utilities:1.2.14"
-    implementation "cc.dreamcode:utilities-bukkit:1.2.14"
+    implementation "cc.dreamcode:utilities:1.2.15"
+    implementation "cc.dreamcode:utilities-bukkit:1.2.15"
 
     // -- lombok --
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
-    testCompileOnly 'org.projectlombok:lombok:1.18.26'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    testCompileOnly 'org.projectlombok:lombok:1.18.28'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
