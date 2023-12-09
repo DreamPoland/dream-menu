@@ -21,6 +21,11 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
     private final BukkitMenu bukkitMenu;
     @Getter @Setter private boolean cancelInventoryClick = true;
     @Getter @Setter private boolean disposeWhenClose = false;
+
+    @Getter @Setter private Consumer<InventoryClickEvent> preInventoryClickEvent;
+    @Getter @Setter private Consumer<InventoryClickEvent> postInventoryClickEvent;
+    @Getter @Setter private Consumer<InventoryCloseEvent> inventoryCloseEvent;
+
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
 
     /**
@@ -61,11 +66,19 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
         if (event instanceof InventoryClickEvent) {
             final InventoryClickEvent inventoryClickEvent = (InventoryClickEvent) event;
 
+            if (this.preInventoryClickEvent != null) {
+                this.preInventoryClickEvent.accept(inventoryClickEvent);
+            }
+
             this.inventoryActions.getOrDefault(inventoryClickEvent.getRawSlot(), e -> {
                 if (this.cancelInventoryClick) {
                     e.setCancelled(true);
                 }
             }).accept(inventoryClickEvent);
+
+            if (this.postInventoryClickEvent != null) {
+                this.postInventoryClickEvent.accept(inventoryClickEvent);
+            }
         }
 
         if (this.cancelInventoryClick) {
@@ -78,6 +91,10 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
      */
     @Override
     public void handleClose(@NonNull InventoryCloseEvent event) {
+        if (this.inventoryCloseEvent != null) {
+            this.inventoryCloseEvent.accept(event);
+        }
+
         if (this.disposeWhenClose) {
             this.dispose();
         }
