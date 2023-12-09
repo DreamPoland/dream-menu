@@ -9,6 +9,7 @@ import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,6 +26,11 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
 
     @Getter private boolean cancelInventoryClick = true;
     @Getter private boolean disposeWhenClose = false;
+
+    @Getter private Consumer<InventoryClickEvent> preInventoryClickEvent;
+    @Getter private Consumer<InventoryClickEvent> postInventoryClickEvent;
+    @Getter private Consumer<InventoryCloseEvent> inventoryCloseEvent;
+
     private final DefaultMenuHolder defaultMenuHolder;
 
     public BukkitMenu(@NonNull String title, int rows, int page) {
@@ -149,5 +155,20 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     public void setDisposeWhenClose(boolean disposeWhenClose) {
         this.disposeWhenClose = disposeWhenClose;
         this.defaultMenuHolder.setDisposeWhenClose(disposeWhenClose);
+    }
+
+    public void setInventoryCloseEvent(Consumer<InventoryCloseEvent> inventoryCloseEvent) {
+        this.inventoryCloseEvent = inventoryCloseEvent;
+        this.defaultMenuHolder.setInventoryCloseEvent(inventoryCloseEvent);
+    }
+
+    public void setPreInventoryClickEvent(Consumer<InventoryClickEvent> preInventoryClickEvent) {
+        this.preInventoryClickEvent = preInventoryClickEvent;
+        this.defaultMenuHolder.setPreInventoryClickEvent(preInventoryClickEvent);
+    }
+
+    public void setPostInventoryClickEvent(Consumer<InventoryClickEvent> postInventoryClickEvent) {
+        this.postInventoryClickEvent = postInventoryClickEvent;
+        this.defaultMenuHolder.setPostInventoryClickEvent(postInventoryClickEvent);
     }
 }
