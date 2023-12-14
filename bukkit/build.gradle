@@ -7,7 +7,7 @@ dependencies {
     implementation project(":core")
 
     // -- spigot api --
-    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.20.3-R0.1-SNAPSHOT'
 
     // -- placeholders --
     implementation 'eu.okaeri:okaeri-placeholders-core:4.0.7'
