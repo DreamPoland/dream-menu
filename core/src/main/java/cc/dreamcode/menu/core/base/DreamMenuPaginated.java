@@ -3,11 +3,18 @@ package cc.dreamcode.menu.core.base;
 import lombok.NonNull;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public interface DreamMenuPaginated<M, I, E, H> {
 
     M getMenuPlatform();
+
+    Optional<M> getMenuByPage(int page);
+    Map<Integer, M> getMenuPages();
+
+    int getSize();
 
     List<H> getViewers();
     int getPlayerPage(@NonNull H h);

@@ -25,6 +25,21 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     }
 
     @Override
+    public Optional<BukkitMenu> getMenuByPage(int page) {
+        return Optional.ofNullable(this.bukkitMenuMap.get(page));
+    }
+
+    @Override
+    public Map<Integer, BukkitMenu> getMenuPages() {
+        return Collections.unmodifiableMap(this.bukkitMenuMap);
+    }
+
+    @Override
+    public int getSize() {
+        return this.bukkitMenuMap.size();
+    }
+
+    @Override
     public List<HumanEntity> getViewers() {
         final List<HumanEntity> viewers = new ArrayList<>();
 
@@ -49,7 +64,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
             final HumanEntity humanEntity = e.getWhoClicked();
             final int nextPage = this.getPlayerPage(humanEntity) + 1;
 
-            if (this.bukkitMenuMap.size() <= nextPage) {
+            if (this.getSize() <= nextPage) {
                 nextPageReach.accept(humanEntity);
                 return;
             }
