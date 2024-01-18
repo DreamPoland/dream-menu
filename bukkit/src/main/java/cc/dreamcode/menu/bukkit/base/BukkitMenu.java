@@ -3,7 +3,7 @@ package cc.dreamcode.menu.bukkit.base;
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.core.base.DreamMenu;
 import cc.dreamcode.utilities.builder.MapBuilder;
-import cc.dreamcode.utilities.bukkit.ChatUtil;
+import cc.dreamcode.utilities.bukkit.StringColorUtil;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -42,7 +42,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.rows > 6 ? 6 * 9 : this.rows * 9,
-                ChatUtil.fixColor(title, new MapBuilder<String, Object>()
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
                         .put("page", page)
                         .build())
         );
@@ -57,7 +57,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.rows > 6 ? 6 * 9 : this.rows * 9,
-                ChatUtil.fixColor(title, new MapBuilder<String, Object>()
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
                         .put("page", page)
                         .putAll(placeholders)
                         .build())

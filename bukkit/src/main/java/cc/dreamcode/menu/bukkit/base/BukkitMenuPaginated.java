@@ -1,7 +1,7 @@
 package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.core.base.DreamMenuPaginated;
-import cc.dreamcode.utilities.optional.CustomOptional;
+import cc.dreamcode.utilities.optional.DreamOptional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.HumanEntity;
@@ -177,11 +177,11 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
     @Override
     public void openFirstPage(@NonNull HumanEntity humanEntity) {
-        CustomOptional.of(this.bukkitMenuMap.entrySet()
+        DreamOptional.ofOptional(this.bukkitMenuMap.entrySet()
                 .stream()
                 .min(Comparator.comparingInt(Map.Entry::getKey))
                 .map(Map.Entry::getKey))
-                .ifPresentOrElse(page -> this.open(page, humanEntity), () -> {
+                .acceptOrElse(page -> this.open(page, humanEntity), () -> {
                     this.bukkitMenuMap.put(0, this.getMenuPlatform().cloneMenu(1));
                     this.openFirstPage(humanEntity);
                 });
