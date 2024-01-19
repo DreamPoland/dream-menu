@@ -2,8 +2,10 @@ package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.core.base.DreamMenuPaginated;
 import cc.dreamcode.utilities.optional.DreamOptional;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
@@ -25,6 +28,11 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     private final BukkitMenu menuPlatform;
     private final Map<Integer, BukkitMenu> bukkitMenuMap = new HashMap<>();
     private final Map<UUID, Integer> cacheSlotPlayerViewing = new HashMap<>();
+
+    @Getter @Setter private BiConsumer<HumanEntity, Integer> nextPagePreEvent;
+    @Getter @Setter private BiConsumer<HumanEntity, Integer> nextPageEvent;
+    @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPagePreEvent;
+    @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPageEvent;
 
     @Override
     public BukkitMenu getMenuPlatform() {
@@ -71,11 +79,14 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
             final HumanEntity humanEntity = e.getWhoClicked();
             final int nextPage = this.getPlayerPage(humanEntity) + 1;
 
+            this.nextPagePreEvent.accept(humanEntity, nextPage);
+
             if (this.getSize() <= nextPage) {
                 nextPageReach.accept(humanEntity);
                 return;
             }
 
+            this.nextPageEvent.accept(humanEntity, nextPage);
             this.open(nextPage, humanEntity);
         });
     }
@@ -94,11 +105,14 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
             final HumanEntity humanEntity = e.getWhoClicked();
             final int previousPage = this.getPlayerPage(humanEntity) - 1;
 
+            this.previousPagePreEvent.accept(humanEntity, previousPage);
+
             if (0 > previousPage) {
                 firstPageReach.accept(humanEntity);
                 return;
             }
 
+            this.previousPageEvent.accept(humanEntity, previousPage);
             this.open(previousPage, humanEntity);
         });
     }
