@@ -28,5 +28,4 @@ public abstract class DreamMenuBuilder<B, I> {
     public abstract B buildEmpty(@NonNull Map<String, Object> replaceMap);
     public abstract B buildWithItems();
     public abstract B buildWithItems(@NonNull Map<String, Object> replaceMap);
-
 }

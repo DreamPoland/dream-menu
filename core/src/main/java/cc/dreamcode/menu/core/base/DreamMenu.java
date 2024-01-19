@@ -4,14 +4,6 @@ import lombok.NonNull;
 
 import java.util.function.Consumer;
 
-/**
- * Interface of menu base.
- *
- * @param <I> ItemStack
- * @param <E> InventoryClickEvent
- * @param <H> MenuHolder
- * @param <P> HumanEntity/Player
- */
 public interface DreamMenu<I, E, H, P> {
 
     int addItem(@NonNull I i);

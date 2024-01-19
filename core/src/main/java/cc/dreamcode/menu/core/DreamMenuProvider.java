@@ -4,9 +4,6 @@ import lombok.NonNull;
 
 import java.util.function.Consumer;
 
-/**
- * Create an instance of menu.
- */
 public interface DreamMenuProvider<D, P> {
 
     D createDefault(@NonNull String title, int rows);
