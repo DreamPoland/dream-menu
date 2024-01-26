@@ -31,8 +31,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
     @Getter @Setter private BiConsumer<HumanEntity, Integer> nextPagePreEvent;
     @Getter @Setter private BiConsumer<HumanEntity, Integer> nextPageEvent;
+    @Getter @Setter private BiConsumer<HumanEntity, Integer> nextPagePostEvent;
     @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPagePreEvent;
     @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPageEvent;
+    @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPagePostEvent;
 
     @Override
     public BukkitMenu getMenuPlatform() {
@@ -93,6 +95,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
             }
 
             this.open(nextPage, humanEntity);
+
+            if (this.nextPagePostEvent != null) {
+                this.nextPagePostEvent.accept(humanEntity, nextPage);
+            }
         });
     }
 
@@ -124,6 +130,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
             }
 
             this.open(previousPage, humanEntity);
+
+            if (this.previousPagePostEvent != null) {
+                this.previousPagePostEvent.accept(humanEntity, previousPage);
+            }
         });
     }
 
