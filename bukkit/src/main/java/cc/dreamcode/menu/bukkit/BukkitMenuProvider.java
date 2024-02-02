@@ -5,12 +5,13 @@ import cc.dreamcode.menu.bukkit.base.BukkitMenuPaginated;
 import cc.dreamcode.menu.bukkit.listener.BukkitMenuListener;
 import cc.dreamcode.menu.core.DreamMenuProvider;
 import lombok.NonNull;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.function.Consumer;
 
-public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, BukkitMenuPaginated> {
+public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, InventoryType, BukkitMenuPaginated> {
 
     public static BukkitMenuProvider create(@NonNull Plugin plugin) {
         final PluginManager pluginManager = plugin.getServer().getPluginManager();
@@ -27,6 +28,19 @@ public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, B
     @Override
     public BukkitMenu createDefault(@NonNull String title, int rows, @NonNull Consumer<BukkitMenu> consumer) {
         final BukkitMenu bukkitMenu = new BukkitMenu(title, rows, 0);
+        consumer.accept(bukkitMenu);
+
+        return bukkitMenu;
+    }
+
+    @Override
+    public BukkitMenu createDefault(@NonNull InventoryType type, @NonNull String title) {
+        return new BukkitMenu(type, title, 0);
+    }
+
+    @Override
+    public BukkitMenu createDefault(@NonNull InventoryType type, @NonNull String title, @NonNull Consumer<BukkitMenu> consumer) {
+        final BukkitMenu bukkitMenu = new BukkitMenu(type, title, 0);
         consumer.accept(bukkitMenu);
 
         return bukkitMenu;

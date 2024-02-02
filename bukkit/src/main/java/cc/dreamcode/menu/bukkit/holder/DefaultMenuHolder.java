@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -23,9 +24,10 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
     @Getter @Setter private boolean cancelInventoryClick = true;
     @Getter @Setter private boolean disposeWhenClose = false;
 
-    @Getter @Setter private Consumer<InventoryClickEvent> preInventoryClickEvent;
+    @Getter @Setter private Consumer<InventoryClickEvent> inventoryClickEvent;
     @Getter @Setter private Consumer<InventoryClickEvent> postInventoryClickEvent;
     @Getter @Setter private Consumer<InventoryCloseEvent> inventoryCloseEvent;
+    @Getter @Setter private Consumer<InventoryDragEvent> inventoryDragEvent;
 
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
 
@@ -59,16 +61,13 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
         this.inventoryActions.remove(slot);
     }
 
-    /**
-     * Void for event, do not call it - when you do not know what are you doing.
-     */
     @Override
     public void handleClick(@NonNull InventoryInteractEvent event) {
         if (event instanceof InventoryClickEvent) {
             final InventoryClickEvent inventoryClickEvent = (InventoryClickEvent) event;
 
-            if (this.preInventoryClickEvent != null) {
-                this.preInventoryClickEvent.accept(inventoryClickEvent);
+            if (this.inventoryClickEvent != null) {
+                this.inventoryClickEvent.accept(inventoryClickEvent);
             }
 
             this.inventoryActions.getOrDefault(inventoryClickEvent.getRawSlot(), e -> {
@@ -87,9 +86,6 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
         }
     }
 
-    /**
-     * Void for event, do not call it - when you do not know what are you doing.
-     */
     @Override
     public void handleClose(@NonNull InventoryCloseEvent event) {
         if (this.inventoryCloseEvent != null) {
@@ -98,6 +94,13 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
         if (this.disposeWhenClose) {
             this.dispose();
+        }
+    }
+
+    @Override
+    public void handleDrag(@NonNull InventoryDragEvent event) {
+        if (this.inventoryDragEvent != null) {
+            this.inventoryDragEvent.accept(event);
         }
     }
 

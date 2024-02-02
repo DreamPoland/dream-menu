@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -28,4 +29,9 @@ public interface BukkitMenuHolder extends DreamMenuHolder<HumanEntity>, Inventor
      * Void for event, do not call it - when you do not know what are you doing.
      */
     void handleClose(@NonNull InventoryCloseEvent event);
+
+    /**
+     * Void for event, do not call it - when you do not know what are you doing.
+     */
+    void handleDrag(@NonNull InventoryDragEvent event);
 }

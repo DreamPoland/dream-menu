@@ -8,13 +8,14 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
-public abstract class DreamMenuBuilder<B, I> {
+public abstract class DreamMenuBuilder<B, T, I> {
 
+    private final T inventoryType;
     private final String name;
     private final int rows;
     private final Map<Integer, I> items;
 
-    public DreamMenuBuilder<B, I> fillInventoryWith(@NonNull I i) {
+    public DreamMenuBuilder<B, T, I> fillInventoryWith(@NonNull I i) {
         for (int slot = 0; slot < this.rows * 9; slot++) {
             if (!this.items.containsKey(slot)) {
                 this.items.put(slot, i);

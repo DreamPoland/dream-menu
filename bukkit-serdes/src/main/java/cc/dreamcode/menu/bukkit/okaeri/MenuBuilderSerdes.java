@@ -6,12 +6,9 @@ import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
 import lombok.NonNull;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
-/**
- * Required Yaml-Bukkit serdes pack from okaeri-config.
- * Add this class to your config serdes pack.
- */
 public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
     /**
      * @param type the type checked for compatibility
@@ -29,8 +26,16 @@ public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
      */
     @Override
     public void serialize(@NonNull BukkitMenuBuilder object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
+        if (!object.getInventoryType().equals(InventoryType.CHEST)) {
+            data.add("type", object.getInventoryType());
+        }
+
         data.add("name", object.getName());
-        data.add("rows", object.getRows());
+
+        if (object.getInventoryType().equals(InventoryType.CHEST)) {
+            data.add("rows", object.getRows());
+        }
+
         data.addAsMap("items", object.getItems(), Integer.class, ItemStack.class);
     }
 
@@ -41,6 +46,14 @@ public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
      */
     @Override
     public BukkitMenuBuilder deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
+        if (data.containsKey("type")) {
+            return new BukkitMenuBuilder(
+                    data.get("type", InventoryType.class),
+                    data.get("name", String.class),
+                    data.getAsMap("items", Integer.class, ItemStack.class)
+            );
+        }
+
         return new BukkitMenuBuilder(
                 data.get("name", String.class),
                 data.get("rows", Integer.class),

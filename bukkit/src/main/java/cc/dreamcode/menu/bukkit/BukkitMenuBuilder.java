@@ -4,34 +4,38 @@ import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.menu.core.DreamMenuBuilder;
 import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import lombok.NonNull;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, ItemStack> {
+public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, InventoryType, ItemStack> {
 
     public BukkitMenuBuilder(@NonNull String name, int rows, Map<Integer, ItemStack> items) {
-        super(name, rows, items == null ? new HashMap<>() : items);
+        super(InventoryType.CHEST, name, rows, items == null ? new HashMap<>() : items);
+    }
+
+    public BukkitMenuBuilder(@NonNull InventoryType inventoryType, @NonNull String name, Map<Integer, ItemStack> items) {
+        super(inventoryType, name, inventoryType.getDefaultSize(), items == null ? new HashMap<>() : items);
     }
 
     @Override
     public BukkitMenu buildEmpty() {
-        return new BukkitMenu(
-                this.getName(),
-                this.getRows(),
-                0
-        );
+        if (this.getInventoryType().equals(InventoryType.CHEST)) {
+            return new BukkitMenu(this.getName(), this.getRows(), 0);
+        }
+
+        return new BukkitMenu(this.getInventoryType(), this.getName(), 0);
     }
 
     @Override
     public BukkitMenu buildEmpty(@NonNull Map<String, Object> replaceMap) {
-        return new BukkitMenu(
-                this.getName(),
-                replaceMap,
-                this.getRows(),
-                0
-        );
+        if (this.getInventoryType().equals(InventoryType.CHEST)) {
+            return new BukkitMenu(this.getName(), replaceMap, this.getRows(), 0);
+        }
+
+        return new BukkitMenu(this.getInventoryType(), this.getName(), replaceMap, 0);
     }
 
     @Override
