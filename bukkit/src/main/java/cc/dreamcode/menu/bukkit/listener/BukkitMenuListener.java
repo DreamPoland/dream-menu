@@ -7,7 +7,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -16,7 +15,7 @@ public final class BukkitMenuListener implements Listener {
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
         final Inventory inventory = event.getInventory();
-        if (!inventory.getType().equals(InventoryType.CHEST)) {
+        if (inventory.getHolder() == null) {
             return;
         }
 
@@ -30,7 +29,7 @@ public final class BukkitMenuListener implements Listener {
     @EventHandler
     private void onInventoryInteract(InventoryInteractEvent event) {
         final Inventory inventory = event.getInventory();
-        if (!inventory.getType().equals(InventoryType.CHEST)) {
+        if (inventory.getHolder() == null) {
             return;
         }
 
@@ -44,7 +43,7 @@ public final class BukkitMenuListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         final Inventory inventory = event.getInventory();
-        if (!inventory.getType().equals(InventoryType.CHEST)) {
+        if (inventory.getHolder() == null) {
             return;
         }
 
@@ -58,7 +57,7 @@ public final class BukkitMenuListener implements Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         final Inventory inventory = event.getInventory();
-        if (!inventory.getType().equals(InventoryType.CHEST)) {
+        if (inventory.getHolder() == null) {
             return;
         }
 
