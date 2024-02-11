@@ -2,13 +2,18 @@ package cc.dreamcode.menu.core.base;
 
 import lombok.NonNull;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public interface DreamMenu<I, E, H, P> {
 
     int addItem(@NonNull I i);
 
+    int addItem(@NonNull I i, @NonNull List<Integer> applySlots);
+
     int addItem(@NonNull I i, @NonNull Consumer<E> event);
+
+    int addItem(@NonNull I i, @NonNull List<Integer> applySlots, @NonNull Consumer<E> event);
 
     void setItem(int slot, @NonNull I i);
 

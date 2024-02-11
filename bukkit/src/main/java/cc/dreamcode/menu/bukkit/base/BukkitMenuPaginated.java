@@ -21,11 +21,14 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemStack, InventoryClickEvent, HumanEntity> {
 
     private final BukkitMenu menuPlatform;
+    private final List<Integer> storageItemSlots;
     private final Map<Integer, BukkitMenu> bukkitMenuMap = new HashMap<>();
     private final Map<UUID, Integer> cacheSlotPlayerViewing = new HashMap<>();
 
@@ -36,9 +39,21 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPageEvent;
     @Getter @Setter private BiConsumer<HumanEntity, Integer> previousPagePostEvent;
 
+    public BukkitMenuPaginated(@NonNull BukkitMenu menuPlatform) {
+        this.menuPlatform = menuPlatform;
+        this.storageItemSlots = IntStream.rangeClosed(0, menuPlatform.getSize())
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
     @Override
     public BukkitMenu getMenuPlatform() {
         return this.menuPlatform;
+    }
+
+    @Override
+    public List<Integer> getStorageItemSlots() {
+        return this.storageItemSlots;
     }
 
     @Override
@@ -145,17 +160,16 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
 
     @Override
     public void addStorageItem(@NonNull BukkitMenu bukkitMenu, int page, @NonNull ItemStack itemStack, Consumer<InventoryClickEvent> event) {
-        final int slot = bukkitMenu.addItem(itemStack);
-        if (slot != -1) {
-            if (event != null) {
-                bukkitMenu.getHolder().setActionOnSlot(slot, event.andThen(e -> {
-                    if (e.isCancelled()) {
-                        return;
-                    }
+        final int slot = bukkitMenu.addItem(itemStack, this.storageItemSlots);
+        if (slot != -1 && event != null) {
+            bukkitMenu.getHolder().setActionOnSlot(slot, event.andThen(e -> {
+                if (e.isCancelled()) {
+                    return;
+                }
 
-                    bukkitMenu.getHolder().removeActionOnSlot(slot);
-                }));
-            }
+                bukkitMenu.getHolder().removeActionOnSlot(slot);
+            }));
+
             return;
         }
 
@@ -165,17 +179,15 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
             this.bukkitMenuMap.put(page + 1, nextMenu.get());
         }
 
-        final int nextMenuSlot = nextMenu.get().addItem(itemStack);
-        if (nextMenuSlot != -1) {
-            if (event != null) {
-                nextMenu.get().getHolder().setActionOnSlot(nextMenuSlot, event.andThen(e -> {
-                    if (e.isCancelled()) {
-                        return;
-                    }
+        final int nextMenuSlot = nextMenu.get().addItem(itemStack, this.storageItemSlots);
+        if (nextMenuSlot != -1 && event != null) {
+            nextMenu.get().getHolder().setActionOnSlot(nextMenuSlot, event.andThen(e -> {
+                if (e.isCancelled()) {
+                    return;
+                }
 
-                    nextMenu.get().getHolder().removeActionOnSlot(nextMenuSlot);
-                }));
-            }
+                nextMenu.get().getHolder().removeActionOnSlot(nextMenuSlot);
+            }));
         }
     }
 

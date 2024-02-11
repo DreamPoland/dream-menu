@@ -11,6 +11,8 @@ public interface DreamMenuPaginated<M, I, E, H> {
 
     M getMenuPlatform();
 
+    List<Integer> getStorageItemSlots();
+
     Optional<M> getMenuByPage(int page);
     Map<Integer, M> getMenuPages();
 
