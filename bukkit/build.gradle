@@ -10,7 +10,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
     // -- placeholders --
-    implementation 'eu.okaeri:okaeri-placeholders-core:4.0.7'
+    implementation 'eu.okaeri:okaeri-placeholders-core:5.0.1'
 
     // -- dream-utilities --
     implementation "cc.dreamcode:utilities:1.2.25"
