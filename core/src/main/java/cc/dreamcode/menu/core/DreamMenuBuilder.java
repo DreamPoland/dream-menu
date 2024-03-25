@@ -1,21 +1,32 @@
 package cc.dreamcode.menu.core;
 
+import cc.dreamcode.menu.core.utilities.MenuUtil;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
+@AllArgsConstructor
 public abstract class DreamMenuBuilder<B, T, I> {
 
     private final T inventoryType;
     private final String name;
     private final int rows;
-    private final Map<Integer, I> items;
+    private Map<Integer, I> items = new HashMap<>();
 
-    public DreamMenuBuilder<B, T, I> fillInventoryWith(@NonNull I i) {
+    public DreamMenuBuilder<B, T, I> fillItem(int x, int z, @NonNull I i) {
+
+        this.items.put(MenuUtil.countSlot(x, z), i);
+        return this;
+    }
+
+    public DreamMenuBuilder<B, T, I> fillBackground(@NonNull I i) {
+
         for (int slot = 0; slot < this.rows * 9; slot++) {
             if (!this.items.containsKey(slot)) {
                 this.items.put(slot, i);

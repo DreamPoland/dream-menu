@@ -2,6 +2,7 @@ package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.core.base.DreamMenu;
+import cc.dreamcode.menu.core.utilities.MenuUtil;
 import cc.dreamcode.utilities.builder.MapBuilder;
 import cc.dreamcode.utilities.bukkit.StringColorUtil;
 import lombok.Getter;
@@ -178,6 +179,18 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     public void setItem(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         this.defaultMenuHolder.setActionOnSlot(slot, event);
         this.inventory.setItem(slot, itemStack);
+    }
+
+    @Override
+    public void setItem(int x, int z, @NonNull ItemStack itemStack) {
+        int slot = MenuUtil.countSlot(x, z);
+        this.setItem(slot, itemStack);
+    }
+
+    @Override
+    public void setItem(int x, int z, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        int slot = MenuUtil.countSlot(x, z);
+        this.setItem(slot, itemStack, event);
     }
 
     @Override

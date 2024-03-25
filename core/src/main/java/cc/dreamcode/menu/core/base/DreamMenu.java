@@ -19,6 +19,10 @@ public interface DreamMenu<I, E, H, P> {
 
     void setItem(int slot, @NonNull I i, @NonNull Consumer<E> event);
 
+    void setItem(int x, int z, @NonNull I i);
+
+    void setItem(int x, int z, @NonNull I i, @NonNull Consumer<E> event);
+
     void setItem(int[] slots, @NonNull I i);
 
     void setItem(int[] slots, @NonNull I i, @NonNull Consumer<E> event);

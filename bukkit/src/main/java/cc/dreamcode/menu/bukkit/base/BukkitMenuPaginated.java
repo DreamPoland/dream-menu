@@ -1,6 +1,7 @@
 package cc.dreamcode.menu.bukkit.base;
 
 import cc.dreamcode.menu.core.base.DreamMenuPaginated;
+import cc.dreamcode.menu.core.utilities.MenuUtil;
 import cc.dreamcode.utilities.option.Option;
 import lombok.Getter;
 import lombok.NonNull;
@@ -124,6 +125,18 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     }
 
     @Override
+    public void setNextPageSlot(int x, int z, @NonNull Consumer<HumanEntity> lastPageReach) {
+        int slot = MenuUtil.countSlot(x, z);
+        this.setNextPageSlot(slot, lastPageReach);
+    }
+
+    @Override
+    public void setNextPageSlot(int x, int z, @NonNull ItemStack itemStack, @NonNull Consumer<HumanEntity> lastPageReach) {
+        int slot = MenuUtil.countSlot(x, z);
+        this.setNextPageSlot(slot, itemStack, lastPageReach);
+    }
+
+    @Override
     public void setPreviousPageSlot(int slot, @NonNull Consumer<HumanEntity> firstPageReach) {
         this.menuPlatform.getHolder().setActionOnSlot(slot, e -> {
             e.setCancelled(true);
@@ -156,6 +169,18 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     public void setPreviousPageSlot(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<HumanEntity> firstPageReach) {
         this.setPreviousPageSlot(slot, firstPageReach);
         this.getMenuPlatform().setItem(slot, itemStack);
+    }
+
+    @Override
+    public void setPreviousPageSlot(int x, int z, @NonNull Consumer<HumanEntity> firstPageReach) {
+        int slot = MenuUtil.countSlot(x, z);
+        this.setPreviousPageSlot(slot, firstPageReach);
+    }
+
+    @Override
+    public void setPreviousPageSlot(int x, int z, @NonNull ItemStack itemStack, @NonNull Consumer<HumanEntity> firstPageReach) {
+        int slot = MenuUtil.countSlot(x, z);
+        this.setPreviousPageSlot(slot, itemStack, firstPageReach);
     }
 
     @Override

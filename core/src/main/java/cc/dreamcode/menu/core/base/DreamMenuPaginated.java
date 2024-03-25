@@ -24,8 +24,14 @@ public interface DreamMenuPaginated<M, I, E, H> {
     void setNextPageSlot(int slot, @NonNull Consumer<H> lastPageReach);
     void setNextPageSlot(int slot, @NonNull I i, @NonNull Consumer<H> lastPageReach);
 
+    void setNextPageSlot(int x, int z, @NonNull Consumer<H> lastPageReach);
+    void setNextPageSlot(int x, int z, @NonNull I i, @NonNull Consumer<H> lastPageReach);
+
     void setPreviousPageSlot(int slot, @NonNull Consumer<H> firstPageReach);
     void setPreviousPageSlot(int slot, @NonNull I i, @NonNull Consumer<H> firstPageReach);
+
+    void setPreviousPageSlot(int x, int z, @NonNull Consumer<H> firstPageReach);
+    void setPreviousPageSlot(int x, int z, @NonNull I i, @NonNull Consumer<H> firstPageReach);
 
     void addStorageItem(@NonNull M m, int page, @NonNull I i, Consumer<E> event);
     void addStorageItem(@NonNull I i, Consumer<E> event);
