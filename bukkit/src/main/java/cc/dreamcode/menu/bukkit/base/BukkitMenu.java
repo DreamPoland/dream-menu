@@ -244,7 +244,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     public BukkitMenu cloneMenu(int slot) {
         final BukkitMenu bukkitMenu;
         if (this.inventoryType.equals(InventoryType.CHEST)) {
-            bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.size, slot);
+            bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.size / 9, slot);
         }
         else {
             bukkitMenu = new BukkitMenu(this.inventoryType, this.title, this.placeholders, slot);
