@@ -186,14 +186,16 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenu, ItemS
     @Override
     public void addStorageItem(@NonNull BukkitMenu bukkitMenu, int page, @NonNull ItemStack itemStack, Consumer<InventoryClickEvent> event) {
         final int slot = bukkitMenu.addItem(itemStack, this.storageItemSlots);
-        if (slot != -1 && event != null) {
-            bukkitMenu.getHolder().setActionOnSlot(slot, event.andThen(e -> {
-                if (e.isCancelled()) {
-                    return;
-                }
+        if (slot != -1) {
+            if (event != null) {
+                bukkitMenu.getHolder().setActionOnSlot(slot, event.andThen(e -> {
+                    if (e.isCancelled()) {
+                        return;
+                    }
 
-                bukkitMenu.getHolder().removeActionOnSlot(slot);
-            }));
+                    bukkitMenu.getHolder().removeActionOnSlot(slot);
+                }));
+            }
 
             return;
         }
