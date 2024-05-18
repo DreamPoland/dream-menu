@@ -9,7 +9,7 @@ import lombok.NonNull;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
-public class MenuBuilderSerdes implements ObjectSerializer<BukkitMenuBuilder> {
+public class MenuBuilderSerializer implements ObjectSerializer<BukkitMenuBuilder> {
     /**
      * @param type the type checked for compatibility
      * @return {@code true} if serializer is able to process the {@code type}
