@@ -5,4 +5,5 @@ include(":core")
 
 // -- bukkit --
 include(":bukkit")
+include(":bukkit-adventure")
 include(":bukkit-serdes")

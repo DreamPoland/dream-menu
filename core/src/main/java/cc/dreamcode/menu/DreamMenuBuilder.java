@@ -1,6 +1,6 @@
-package cc.dreamcode.menu.core;
+package cc.dreamcode.menu;
 
-import cc.dreamcode.menu.core.utilities.MenuUtil;
+import cc.dreamcode.menu.utilities.MenuUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;

@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.core.holder;
+package cc.dreamcode.menu.holder;
 
 import lombok.NonNull;
 

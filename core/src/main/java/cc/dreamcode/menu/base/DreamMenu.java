@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.core.base;
+package cc.dreamcode.menu.base;
 
 import lombok.NonNull;
 

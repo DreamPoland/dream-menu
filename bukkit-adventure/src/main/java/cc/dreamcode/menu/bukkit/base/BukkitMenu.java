@@ -1,10 +1,10 @@
 package cc.dreamcode.menu.bukkit.base;
 
-import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
-import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.base.DreamMenu;
+import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
+import cc.dreamcode.menu.bukkit.adventure.AdventureLegacy;
+import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.utilities.MenuUtil;
-import cc.dreamcode.utilities.bukkit.StringColorUtil;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
@@ -59,7 +59,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
         );
     }
 
@@ -81,7 +81,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
         );
     }
 
@@ -105,7 +105,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
         );
     }
 
@@ -130,7 +130,7 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
         );
     }
 

@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.bukkit.okaeri;
+package cc.dreamcode.menu.bukkit.serializer;
 
 import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
 import eu.okaeri.configs.schema.GenericsDeclaration;

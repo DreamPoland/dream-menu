@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.core.setup;
+package cc.dreamcode.menu.setup;
 
 public interface MenuSetup<M> {
 

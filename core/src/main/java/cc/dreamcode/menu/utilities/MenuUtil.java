@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.core.utilities;
+package cc.dreamcode.menu.utilities;
 
 import lombok.experimental.UtilityClass;
 
