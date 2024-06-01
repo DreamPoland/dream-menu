@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.bukkit.adventure;
+package cc.dreamcode.menu.adventure.adventure;
 
 import net.kyori.adventure.text.Component;
 

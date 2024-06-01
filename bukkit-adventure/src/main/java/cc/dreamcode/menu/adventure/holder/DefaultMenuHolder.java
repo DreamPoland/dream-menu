@@ -1,6 +1,6 @@
-package cc.dreamcode.menu.bukkit.holder;
+package cc.dreamcode.menu.adventure.holder;
 
-import cc.dreamcode.menu.bukkit.base.BukkitMenu;
+import cc.dreamcode.menu.adventure.base.BukkitMenu;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

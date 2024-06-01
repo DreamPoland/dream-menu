@@ -1,6 +1,6 @@
-package cc.dreamcode.menu.bukkit.setup;
+package cc.dreamcode.menu.adventure.setup;
 
-import cc.dreamcode.menu.bukkit.base.BukkitMenuPaginated;
+import cc.dreamcode.menu.adventure.base.BukkitMenuPaginated;
 import cc.dreamcode.menu.setup.MenuPlayerSetup;
 import org.bukkit.entity.HumanEntity;
 

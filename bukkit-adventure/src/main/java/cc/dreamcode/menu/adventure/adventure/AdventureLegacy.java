@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.bukkit.adventure;
+package cc.dreamcode.menu.adventure.adventure;
 
 import cc.dreamcode.utilities.bukkit.StringColorUtil;
 import eu.okaeri.placeholders.context.PlaceholderContext;

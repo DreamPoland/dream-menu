@@ -1,6 +1,6 @@
-package cc.dreamcode.menu.bukkit.listener;
+package cc.dreamcode.menu.adventure.listener;
 
-import cc.dreamcode.menu.bukkit.holder.BukkitMenuHolder;
+import cc.dreamcode.menu.adventure.holder.BukkitMenuHolder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;

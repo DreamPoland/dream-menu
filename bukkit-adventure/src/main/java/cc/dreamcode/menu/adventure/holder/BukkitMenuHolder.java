@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.bukkit.holder;
+package cc.dreamcode.menu.adventure.holder;
 
 import cc.dreamcode.menu.holder.DreamMenuHolder;
 import lombok.NonNull;

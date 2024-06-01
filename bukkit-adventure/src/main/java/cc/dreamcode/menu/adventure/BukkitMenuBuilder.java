@@ -1,6 +1,6 @@
-package cc.dreamcode.menu.bukkit;
+package cc.dreamcode.menu.adventure;
 
-import cc.dreamcode.menu.bukkit.base.BukkitMenu;
+import cc.dreamcode.menu.adventure.base.BukkitMenu;
 import cc.dreamcode.menu.DreamMenuBuilder;
 import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import lombok.NonNull;

@@ -1,8 +1,8 @@
-package cc.dreamcode.menu.bukkit;
+package cc.dreamcode.menu.adventure;
 
-import cc.dreamcode.menu.bukkit.base.BukkitMenu;
-import cc.dreamcode.menu.bukkit.base.BukkitMenuPaginated;
-import cc.dreamcode.menu.bukkit.listener.BukkitMenuListener;
+import cc.dreamcode.menu.adventure.base.BukkitMenu;
+import cc.dreamcode.menu.adventure.base.BukkitMenuPaginated;
+import cc.dreamcode.menu.adventure.listener.BukkitMenuListener;
 import cc.dreamcode.menu.DreamMenuProvider;
 import eu.okaeri.placeholders.Placeholders;
 import lombok.Getter;

@@ -1,9 +1,9 @@
-package cc.dreamcode.menu.bukkit.base;
+package cc.dreamcode.menu.adventure.base;
 
 import cc.dreamcode.menu.base.DreamMenu;
-import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
-import cc.dreamcode.menu.bukkit.adventure.AdventureLegacy;
-import cc.dreamcode.menu.bukkit.holder.DefaultMenuHolder;
+import cc.dreamcode.menu.adventure.BukkitMenuProvider;
+import cc.dreamcode.menu.adventure.adventure.AdventureLegacy;
+import cc.dreamcode.menu.adventure.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.utilities.MenuUtil;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
+public final class BukkitMenu implements DreamMenu<BukkitMenu, ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
 
     @Getter private final InventoryType inventoryType;
     @Getter private final String title;
@@ -135,118 +135,134 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     }
 
     @Override
-    public int addItem(@NonNull ItemStack itemStack) {
+    public BukkitMenu addItem(@NonNull ItemStack itemStack) {
         for (int slot = 0; slot < this.size; slot++) {
             if (this.inventory.getItem(slot) == null) {
                 this.inventory.setItem(slot, itemStack);
-                return slot;
+                return this;
             }
         }
 
-        return -1;
+        return this;
     }
 
     @Override
-    public int addItem(@NonNull ItemStack itemStack, @NonNull List<Integer> applySlots) {
-        for (int slot = 0; slot < this.size; slot++) {
-            if (!applySlots.contains(slot)) {
-                continue;
-            }
-
-            if (this.inventory.getItem(slot) == null) {
-                this.inventory.setItem(slot, itemStack);
-                return slot;
-            }
-        }
-
-        return -1;
-    }
-
-    @Override
-    public int addItem(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
-        for (int slot = 0; slot < this.size; slot++) {
-            if (this.inventory.getItem(slot) == null) {
-                this.defaultMenuHolder.setActionOnSlot(slot, event);
-                this.inventory.setItem(slot, itemStack);
-                return slot;
-            }
-        }
-
-        return -1;
-    }
-
-    @Override
-    public int addItem(@NonNull ItemStack itemStack, @NonNull List<Integer> applySlots, @NonNull Consumer<InventoryClickEvent> event) {
+    public BukkitMenu addItem(@NonNull ItemStack itemStack, @NonNull List<Integer> applySlots) {
         for (int slot = 0; slot < this.size; slot++) {
             if (!applySlots.contains(slot)) {
                 continue;
             }
 
             if (this.inventory.getItem(slot) == null) {
-                this.defaultMenuHolder.setActionOnSlot(slot, event);
                 this.inventory.setItem(slot, itemStack);
-                return slot;
+                return this;
             }
         }
 
-        return -1;
+        return this;
+    }
+
+    @Override
+    public BukkitMenu addItem(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        for (int slot = 0; slot < this.size; slot++) {
+            if (this.inventory.getItem(slot) == null) {
+                this.defaultMenuHolder.setActionOnSlot(slot, event);
+                this.inventory.setItem(slot, itemStack);
+                return this;
+            }
+        }
+
+        return this;
+    }
+
+    @Override
+    public BukkitMenu addItem(@NonNull ItemStack itemStack, @NonNull List<Integer> applySlots, @NonNull Consumer<InventoryClickEvent> event) {
+        for (int slot = 0; slot < this.size; slot++) {
+            if (!applySlots.contains(slot)) {
+                continue;
+            }
+
+            if (this.inventory.getItem(slot) == null) {
+                this.defaultMenuHolder.setActionOnSlot(slot, event);
+                this.inventory.setItem(slot, itemStack);
+                return this;
+            }
+        }
+
+        return this;
     }
 
 
     @Override
-    public void setItem(int slot, @NonNull ItemStack itemStack) {
+    public BukkitMenu setItem(int slot, @NonNull ItemStack itemStack) {
         this.inventory.setItem(slot, itemStack);
+
+        return this;
     }
 
     @Override
-    public void setItem(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+    public BukkitMenu setItem(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         this.defaultMenuHolder.setActionOnSlot(slot, event);
         this.inventory.setItem(slot, itemStack);
+
+        return this;
     }
 
     @Override
-    public void setItem(int x, int z, @NonNull ItemStack itemStack) {
+    public BukkitMenu setItem(int x, int z, @NonNull ItemStack itemStack) {
         int slot = MenuUtil.countSlot(x, z);
         this.setItem(slot, itemStack);
+
+        return this;
     }
 
     @Override
-    public void setItem(int x, int z, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+    public BukkitMenu setItem(int x, int z, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         int slot = MenuUtil.countSlot(x, z);
         this.setItem(slot, itemStack, event);
+
+        return this;
     }
 
     @Override
-    public void setItem(int[] slots, @NonNull ItemStack itemStack) {
+    public BukkitMenu setItem(int[] slots, @NonNull ItemStack itemStack) {
         for (int slot : slots) {
             this.setItem(slot, itemStack);
         }
+
+        return this;
     }
 
     @Override
-    public void setItem(int[] slots, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+    public BukkitMenu setItem(int[] slots, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         for (int slot : slots) {
             this.setItem(slot, itemStack, event);
         }
+
+        return this;
     }
 
     @Override
-    public void fillInventoryWith(@NonNull ItemStack itemStack) {
+    public BukkitMenu fillInventoryWith(@NonNull ItemStack itemStack) {
         for (int slot = 0; slot < this.size; slot++) {
             if (this.inventory.getItem(slot) == null) {
                 this.inventory.setItem(slot, itemStack);
             }
         }
+
+        return this;
     }
 
     @Override
-    public void fillInventoryWith(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+    public BukkitMenu fillInventoryWith(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
         for (int slot = 0; slot < this.size; slot++) {
             if (this.inventory.getItem(slot) == null) {
                 this.inventory.setItem(slot, itemStack);
                 this.defaultMenuHolder.setActionOnSlot(slot, event);
             }
         }
+
+        return this;
     }
 
     @Override
@@ -255,13 +271,17 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
     }
 
     @Override
-    public void open(@NonNull HumanEntity humanEntity) {
+    public BukkitMenu open(@NonNull HumanEntity humanEntity) {
         this.getHolder().open(humanEntity);
+
+        return this;
     }
 
     @Override
-    public void dispose() {
+    public BukkitMenu dispose() {
         this.getHolder().dispose();
+
+        return this;
     }
 
     public BukkitMenu cloneMenu(int slot) {
@@ -283,33 +303,45 @@ public final class BukkitMenu implements DreamMenu<ItemStack, InventoryClickEven
         return bukkitMenu;
     }
 
-    public void setCancelInventoryClick(boolean cancelInventoryClick) {
+    public BukkitMenu setCancelInventoryClick(boolean cancelInventoryClick) {
         this.cancelInventoryClick = cancelInventoryClick;
         this.defaultMenuHolder.setCancelInventoryClick(cancelInventoryClick);
+
+        return this;
     }
 
-    public void setDisposeWhenClose(boolean disposeWhenClose) {
+    public BukkitMenu setDisposeWhenClose(boolean disposeWhenClose) {
         this.disposeWhenClose = disposeWhenClose;
         this.defaultMenuHolder.setDisposeWhenClose(disposeWhenClose);
+
+        return this;
     }
 
-    public void setInventoryCloseEvent(Consumer<InventoryCloseEvent> inventoryCloseEvent) {
+    public BukkitMenu setInventoryCloseEvent(Consumer<InventoryCloseEvent> inventoryCloseEvent) {
         this.inventoryCloseEvent = inventoryCloseEvent;
         this.defaultMenuHolder.setInventoryCloseEvent(inventoryCloseEvent);
+
+        return this;
     }
 
-    public void setInventoryClickEvent(Consumer<InventoryClickEvent> inventoryClickEvent) {
+    public BukkitMenu setInventoryClickEvent(Consumer<InventoryClickEvent> inventoryClickEvent) {
         this.inventoryClickEvent = inventoryClickEvent;
         this.defaultMenuHolder.setInventoryClickEvent(inventoryClickEvent);
+
+        return this;
     }
 
-    public void setPostInventoryClickEvent(Consumer<InventoryClickEvent> postInventoryClickEvent) {
+    public BukkitMenu setPostInventoryClickEvent(Consumer<InventoryClickEvent> postInventoryClickEvent) {
         this.postInventoryClickEvent = postInventoryClickEvent;
         this.defaultMenuHolder.setPostInventoryClickEvent(postInventoryClickEvent);
+
+        return this;
     }
 
-    public void setInventoryDragEvent(Consumer<InventoryDragEvent> inventoryDragEvent) {
+    public BukkitMenu setInventoryDragEvent(Consumer<InventoryDragEvent> inventoryDragEvent) {
         this.inventoryDragEvent = inventoryDragEvent;
         this.defaultMenuHolder.setInventoryDragEvent(inventoryDragEvent);
+
+        return this;
     }
 }
