@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public final class BukkitMenu implements DreamMenu<BukkitMenu, ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
+public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginated, ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
 
     @Getter private final InventoryType inventoryType;
     @Getter private final String title;
@@ -276,6 +276,11 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, ItemStack, Invent
         this.getHolder().open(humanEntity);
 
         return this;
+    }
+
+    @Override
+    public BukkitMenuPaginated toPaginated() {
+        return new BukkitMenuPaginated(this);
     }
 
     @Override

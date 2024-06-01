@@ -5,7 +5,7 @@ import lombok.NonNull;
 import java.util.List;
 import java.util.function.Consumer;
 
-public interface DreamMenu<R, I, E, H, P> {
+public interface DreamMenu<R, T, I, E, H, P> {
 
     R addItem(@NonNull I i);
 
@@ -34,6 +34,8 @@ public interface DreamMenu<R, I, E, H, P> {
     H getHolder();
 
     R open(@NonNull P p);
+
+    T toPaginated();
 
     R dispose();
 }
