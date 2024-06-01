@@ -6,4 +6,7 @@ include(":core")
 // -- bukkit --
 include(":bukkit")
 include(":bukkit-adventure")
-include(":bukkit-serdes")
+
+// -- serializer --
+include(":serializer:bukkit-serializer")
+include(":serializer:bukkit-adventure-serializer")
