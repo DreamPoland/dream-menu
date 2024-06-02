@@ -1,4 +1,6 @@
-# dream-menu
+# Dream-Menu
+[![Build](https://github.com/DreamPoland/dream-menu/actions/workflows/gradle.yml/badge.svg)](https://github.com/DreamPoland/dream-menu/actions/workflows/gradle.yml)
+
 Inventory API with simple use and serialization.
 
 Find example in [bukkit-example](https://github.com/DreamPoland/dream-menu/blob/master/bukkit-example/src/main/java/me/devtest/menuexample) plugin.
