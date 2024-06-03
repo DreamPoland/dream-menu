@@ -7,13 +7,14 @@ dependencies {
     implementation(project(":core"))
 
     // -- spigot api -- (base)
-    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
 
     // -- placeholders --
     implementation("eu.okaeri:okaeri-placeholders-core:5.0.1")
 
     // -- kyori-adventure --
-    compileOnly("net.kyori:adventure-text-minimessage:4.16.0")
+    implementation("net.kyori:adventure-text-minimessage:4.16.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.16.0")
 
     // -- dream-utilities --
     implementation("cc.dreamcode:utilities:1.4.1")
