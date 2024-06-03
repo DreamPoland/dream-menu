@@ -16,6 +16,7 @@ public final class AdventureLegacy {
 
     private static final Pattern FIELD_PATTERN = Pattern.compile("\\{(?<content>[^}]+)}");
 
+    private static final LegacyComponentSerializer SECTION_SERIALIZER = LegacyComponentSerializer.legacySection();
     private static final LegacyComponentSerializer AMPERSAND_SERIALIZER = LegacyComponentSerializer.builder()
             .character('&')
             .hexColors()
@@ -62,5 +63,9 @@ public final class AdventureLegacy {
                     return AdventureLegacy.component(fieldValue);
                 })
                 .build();
+    }
+
+    public static String serialize(@NonNull Component component) {
+        return SECTION_SERIALIZER.serialize(component);
     }
 }

@@ -59,7 +59,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
+                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
         );
     }
 
@@ -81,7 +81,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
+                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
         );
     }
 
@@ -105,7 +105,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
+                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
         );
     }
 
@@ -130,7 +130,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext))
+                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
         );
     }
 
