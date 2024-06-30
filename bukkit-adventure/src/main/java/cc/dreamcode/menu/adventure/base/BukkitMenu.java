@@ -1,10 +1,10 @@
 package cc.dreamcode.menu.adventure.base;
 
-import cc.dreamcode.menu.base.DreamMenu;
 import cc.dreamcode.menu.adventure.BukkitMenuProvider;
-import cc.dreamcode.menu.adventure.adventure.AdventureLegacy;
 import cc.dreamcode.menu.adventure.holder.DefaultMenuHolder;
+import cc.dreamcode.menu.base.DreamMenu;
 import cc.dreamcode.menu.utilities.MenuUtil;
+import cc.dreamcode.utilities.bukkit.StringColorUtil;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
@@ -59,7 +59,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
+                StringColorUtil.fixColor(placeholderContext.apply())
         );
     }
 
@@ -81,7 +81,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
+                StringColorUtil.fixColor(placeholderContext.apply())
         );
     }
 
@@ -105,7 +105,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
+                StringColorUtil.fixColor(placeholderContext.apply())
         );
     }
 
@@ -130,7 +130,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                AdventureLegacy.serialize(AdventureLegacy.deserialize(title, AdventureLegacy.getPlaceholderConfig(placeholderContext)))
+                StringColorUtil.fixColor(placeholderContext.apply())
         );
     }
 

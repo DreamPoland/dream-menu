@@ -13,6 +13,6 @@ dependencies {
     implementation("eu.okaeri:okaeri-placeholders-core:5.0.1")
 
     // -- dream-utilities --
-    implementation("cc.dreamcode:utilities:1.4.1")
-    implementation("cc.dreamcode:utilities-bukkit:1.4.1")
+    implementation("cc.dreamcode:utilities:1.4.2")
+    implementation("cc.dreamcode:utilities-bukkit:1.4.2")
 }

@@ -11,5 +11,5 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
 
     // -- okaeri-config --
-    implementation("eu.okaeri:okaeri-configs-core:5.0.1")
+    implementation("eu.okaeri:okaeri-configs-core:5.0.2")
 }
