@@ -1,3 +1,3 @@
 dependencies {
-    implementation("cc.dreamcode:utilities:1.4.2")
+    implementation("cc.dreamcode:utilities:1.4.5")
 }
