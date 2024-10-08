@@ -1,12 +1,10 @@
 package cc.dreamcode.menu.adventure.base;
 
-import cc.dreamcode.menu.adventure.BukkitMenuProvider;
 import cc.dreamcode.menu.adventure.holder.DefaultMenuHolder;
 import cc.dreamcode.menu.base.DreamMenu;
 import cc.dreamcode.menu.utilities.MenuUtil;
+import cc.dreamcode.utilities.builder.MapBuilder;
 import cc.dreamcode.utilities.bukkit.StringColorUtil;
-import eu.okaeri.placeholders.context.PlaceholderContext;
-import eu.okaeri.placeholders.message.CompiledMessage;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -20,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -31,6 +28,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     @Getter private final int size;
     @Getter private final Map<String, Object> placeholders;
     @Getter private final Inventory inventory;
+    @Getter private final boolean colorizePlaceholders;
 
     @Getter private boolean cancelInventoryClick = true;
     @Getter private boolean disposeWhenClose = false;
@@ -48,18 +46,14 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.size = inventoryType.getDefaultSize();
         this.placeholders = new HashMap<>();
         this.defaultMenuHolder = new DefaultMenuHolder(this);
-
-        Locale locale = BukkitMenuProvider.getInstance().getLocale();
-        CompiledMessage compiledMessage = CompiledMessage.of(locale, title);
-        PlaceholderContext placeholderContext = BukkitMenuProvider.getInstance()
-                .getPlaceholders()
-                .contextOf(compiledMessage)
-                .with("page", page);
+        this.colorizePlaceholders = false;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .build(), false)
         );
     }
 
@@ -69,19 +63,33 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.size = inventoryType.getDefaultSize();
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
-
-        Locale locale = BukkitMenuProvider.getInstance().getLocale();
-        CompiledMessage compiledMessage = CompiledMessage.of(locale, title);
-        PlaceholderContext placeholderContext = BukkitMenuProvider.getInstance()
-                .getPlaceholders()
-                .contextOf(compiledMessage)
-                .with("page", page)
-                .with(placeholders);
+        this.colorizePlaceholders = true;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .putAll(placeholders)
+                        .build(), true)
+        );
+    }
+
+    public BukkitMenu(@NonNull InventoryType inventoryType, @NonNull String title, @NonNull Map<String, Object> placeholders, int page, boolean colorizePlaceholders) {
+        this.inventoryType = inventoryType;
+        this.title = title;
+        this.size = inventoryType.getDefaultSize();
+        this.placeholders = placeholders;
+        this.defaultMenuHolder = new DefaultMenuHolder(this);
+        this.colorizePlaceholders = colorizePlaceholders;
+
+        this.inventory = Bukkit.createInventory(
+                this.defaultMenuHolder,
+                this.inventoryType,
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .putAll(placeholders)
+                        .build(), colorizePlaceholders)
         );
     }
 
@@ -94,18 +102,14 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.size = rows > 6 ? 6 * 9 : rows * 9;
         this.placeholders = new HashMap<>();
         this.defaultMenuHolder = new DefaultMenuHolder(this);
-
-        Locale locale = BukkitMenuProvider.getInstance().getLocale();
-        CompiledMessage compiledMessage = CompiledMessage.of(locale, title);
-        PlaceholderContext placeholderContext = BukkitMenuProvider.getInstance()
-                .getPlaceholders()
-                .contextOf(compiledMessage)
-                .with("page", page);
+        this.colorizePlaceholders = false;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .build(), false)
         );
     }
 
@@ -118,19 +122,36 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.size = rows > 6 ? 6 * 9 : rows * 9;
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
-
-        Locale locale = BukkitMenuProvider.getInstance().getLocale();
-        CompiledMessage compiledMessage = CompiledMessage.of(locale, title);
-        PlaceholderContext placeholderContext = BukkitMenuProvider.getInstance()
-                .getPlaceholders()
-                .contextOf(compiledMessage)
-                .with("page", page)
-                .with(placeholders);
+        this.colorizePlaceholders = true;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
-                StringColorUtil.fixColor(placeholderContext.apply())
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .putAll(placeholders)
+                        .build(), true)
+        );
+    }
+
+    /**
+     * Create empty menu with type {@link InventoryType#CHEST}
+     */
+    public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, int page, boolean colorizePlaceholders) {
+        this.inventoryType = InventoryType.CHEST;
+        this.title = title;
+        this.size = rows > 6 ? 6 * 9 : rows * 9;
+        this.placeholders = placeholders;
+        this.defaultMenuHolder = new DefaultMenuHolder(this);
+        this.colorizePlaceholders = colorizePlaceholders;
+
+        this.inventory = Bukkit.createInventory(
+                this.defaultMenuHolder,
+                this.size,
+                StringColorUtil.fixColor(title, new MapBuilder<String, Object>()
+                        .put("page", page)
+                        .putAll(placeholders)
+                        .build(), colorizePlaceholders)
         );
     }
 
@@ -292,10 +313,10 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     public BukkitMenu cloneMenu(int slot) {
         final BukkitMenu bukkitMenu;
         if (this.inventoryType.equals(InventoryType.CHEST)) {
-            bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.size / 9, slot);
+            bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.size / 9, slot, this.colorizePlaceholders);
         }
         else {
-            bukkitMenu = new BukkitMenu(this.inventoryType, this.title, this.placeholders, slot);
+            bukkitMenu = new BukkitMenu(this.inventoryType, this.title, this.placeholders, slot, this.colorizePlaceholders);
         }
 
         bukkitMenu.setCancelInventoryClick(this.cancelInventoryClick);
