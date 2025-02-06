@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 public interface DreamMenu<R, T, I, E, H, P> {
 
+    int getPage();
+
     R addItem(@NonNull I i);
 
     R addItem(@NonNull I i, @NonNull List<Integer> applySlots);

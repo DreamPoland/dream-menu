@@ -30,6 +30,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     @Getter private final Inventory inventory;
     @Getter private final boolean colorizePlaceholders;
 
+    @Getter private final int page;
+
     @Getter private boolean cancelInventoryClick = true;
     @Getter private boolean disposeWhenClose = false;
 
@@ -48,6 +50,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = false;
 
+        this.page = page;
+
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.inventoryType,
@@ -64,6 +68,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = true;
+
+        this.page = page;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
@@ -82,6 +88,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = colorizePlaceholders;
+
+        this.page = page;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
@@ -104,6 +112,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = false;
 
+        this.page = page;
+
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
                 this.size,
@@ -123,6 +133,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = true;
+
+        this.page = page;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
@@ -144,6 +156,8 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = colorizePlaceholders;
+
+        this.page = page;
 
         this.inventory = Bukkit.createInventory(
                 this.defaultMenuHolder,
