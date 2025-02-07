@@ -337,6 +337,11 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         bukkitMenu.setCancelInventoryClick(this.cancelInventoryClick);
         bukkitMenu.setDisposeWhenClose(this.disposeWhenClose);
 
+        bukkitMenu.setInventoryClickEvent(this.inventoryClickEvent);
+        bukkitMenu.setPostInventoryClickEvent(this.postInventoryClickEvent);
+        bukkitMenu.setInventoryDragEvent(this.inventoryDragEvent);
+        bukkitMenu.setInventoryCloseEvent(this.inventoryCloseEvent);
+
         bukkitMenu.getInventory().setContents(this.inventory.getContents());
         this.getHolder().getSlotActions().forEach((integer, inventoryClickEventConsumer) ->
                 bukkitMenu.getHolder().setActionOnSlot(integer, inventoryClickEventConsumer));
