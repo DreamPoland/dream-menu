@@ -4,15 +4,14 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
+    api(project(":core"))
 
     // -- spigot api -- (base)
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
-
-    // -- placeholders --
-    implementation("eu.okaeri:okaeri-placeholders-core:5.0.1")
+    compileOnly(libs.spigot.api)
 
     // -- dream-utilities --
-    implementation("cc.dreamcode:utilities:1.5.1")
-    implementation("cc.dreamcode:utilities-bukkit:1.5.1")
+    api(libs.dream.utilties.bukkit)
+
+    // -- placeholders --
+    api(libs.okaeri.placeholders)
 }

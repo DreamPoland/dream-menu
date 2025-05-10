@@ -4,12 +4,12 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":bukkit"))
+    api(project(":core"))
+    api(project(":bukkit"))
 
     // -- spigot api -- (base)
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+    compileOnly(libs.spigot.api)
 
     // -- okaeri-config --
-    implementation("eu.okaeri:okaeri-configs-core:5.0.2")
+    api(libs.okaeri.configs)
 }
