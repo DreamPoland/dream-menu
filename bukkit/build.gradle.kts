@@ -10,8 +10,8 @@ dependencies {
     compileOnly(libs.spigot.api)
 
     // -- dream-utilities --
-    api(libs.dream.utilties.bukkit)
+    implementation(libs.dream.utilties.bukkit)
 
     // -- placeholders --
-    api(libs.okaeri.placeholders)
+    implementation(libs.okaeri.placeholders)
 }
