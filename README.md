@@ -1,9 +1,7 @@
 # Dream-Menu
 [![Build](https://github.com/DreamPoland/dream-menu/actions/workflows/gradle.yml/badge.svg)](https://github.com/DreamPoland/dream-menu/actions/workflows/gradle.yml)
 
-Inventory API with simple use and serialization.
-
-Find example in [bukkit-example](https://github.com/DreamPoland/dream-menu/blob/master/bukkit-example/src/main/java/me/devtest/menuexample) plugin.
+Inventory API with config serialization.
 
 # Installation: (releases)
 
@@ -20,7 +18,7 @@ Add these declarations to your ``pom.xml``
 ```xml
 <dependency>
     <groupId>cc.dreamcode.menu</groupId>
-    <artifactId>core</artifactId>
+    <artifactId>{platform}</artifactId>
     <version>1.3.11</version>
 </dependency>
 ```
@@ -32,5 +30,5 @@ Add these declarations to your ``build.gradle``
 maven { url "https://repo.dreamcode.cc/releases" }
 ```
 ```gradle
-implementation "cc.dreamcode.menu:core:1.3.11"
+implementation "cc.dreamcode.menu:{platform}:1.3.11"
 ```

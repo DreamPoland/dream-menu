@@ -1,3 +1,3 @@
 dependencies {
-    implementation(libs.dream.utilties)
+    api(libs.dream.utilties)
 }

@@ -1,19 +1,12 @@
 [versions]
 lombok = "1.18.38"
 spigot-api = "1.8.8-R0.1-SNAPSHOT"
-dream-utilties = "1.5.3"
-okaeri-placeholders = "5.1.1"
+dream-utilties = "1.5.5"
 okaeri-configs = "5.0.8"
-adventure-minimessage = "4.21.0"
-adventure-serializer = "4.21.0"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot-api" }
 dream-utilties = { module = "cc.dreamcode:utilities", version.ref = "dream-utilties" }
 dream-utilties-bukkit = { module = "cc.dreamcode:utilities-bukkit", version.ref = "dream-utilties" }
-dream-utilties-bukkit-adventure = { module = "cc.dreamcode:utilities-bukkit-adventure", version.ref = "dream-utilties" }
-okaeri-placeholders = { module = "eu.okaeri:okaeri-placeholders-core", version.ref = "okaeri-placeholders" }
 okaeri-configs = { module = "eu.okaeri:okaeri-configs-core", version.ref = "okaeri-configs" }
-adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure-minimessage" }
-adventure-serializer = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure-serializer" }

@@ -1,4 +1,4 @@
-package cc.dreamcode.menu.bukkit.serializer;
+package cc.dreamcode.menu.serializer;
 
 import eu.okaeri.configs.serdes.OkaeriSerdesPack;
 import eu.okaeri.configs.serdes.SerdesRegistry;
