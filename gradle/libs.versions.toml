@@ -1,7 +1,7 @@
 [versions]
 lombok = "1.18.38"
 spigot-api = "1.8.8-R0.1-SNAPSHOT"
-dream-utilties = "1.5.6"
+dream-utilties = "1.5.7"
 okaeri-configs = "5.0.9"
 
 [libraries]
