@@ -328,7 +328,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
 
     @Override
     public BukkitMenuPaginated dispose() {
-        this.bukkitMenuMap.values().forEach(BukkitMenu::dispose);
+        new ArrayList<>(this.bukkitMenuMap.values()).forEach(BukkitMenu::dispose);
         this.bukkitMenuMap.clear();
         this.cacheSlotPlayerViewing.clear();
 
