@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -328,7 +329,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
 
     @Override
     public BukkitMenuPaginated dispose() {
-        new ArrayList<>(this.bukkitMenuMap.values()).forEach(BukkitMenu::dispose);
+        new ArrayList<>(this.bukkitMenuMap.values())
+                .stream()
+                .filter(Objects::nonNull)
+                .forEach(BukkitMenu::dispose);
         this.bukkitMenuMap.clear();
         this.cacheSlotPlayerViewing.clear();
 
