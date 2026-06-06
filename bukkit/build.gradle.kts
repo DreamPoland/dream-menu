@@ -1,6 +1,6 @@
 repositories {
-    maven("https://repo.codemc.io/repository/nms")
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://maven.reposilite.com/maven-central")
 }
 
 dependencies {
