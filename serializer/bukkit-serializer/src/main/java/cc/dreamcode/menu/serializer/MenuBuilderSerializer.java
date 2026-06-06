@@ -15,7 +15,7 @@ public class MenuBuilderSerializer implements ObjectSerializer<BukkitMenuBuilder
      * @return {@code true} if serializer is able to process the {@code type}
      */
     @Override
-    public boolean supports(@NonNull Class<? super BukkitMenuBuilder> type) {
+    public boolean supports(@NonNull Class<?> type) {
         return BukkitMenuBuilder.class.isAssignableFrom(type);
     }
 
@@ -27,16 +27,16 @@ public class MenuBuilderSerializer implements ObjectSerializer<BukkitMenuBuilder
     @Override
     public void serialize(@NonNull BukkitMenuBuilder object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
         if (!object.getInventoryType().equals(InventoryType.CHEST)) {
-            data.add("type", object.getInventoryType());
+            data.set("type", object.getInventoryType());
         }
 
-        data.add("name", object.getName());
+        data.set("name", object.getName());
 
         if (object.getInventoryType().equals(InventoryType.CHEST)) {
-            data.add("rows", object.getRows());
+            data.set("rows", object.getRows());
         }
 
-        data.addAsMap("items", object.getItems(), Integer.class, ItemStack.class);
+        data.setMap("items", object.getItems(), Integer.class, ItemStack.class);
     }
 
     /**

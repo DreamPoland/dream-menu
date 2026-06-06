@@ -1,8 +1,8 @@
 [versions]
-lombok = "1.18.38"
+lombok = "1.18.46"
 spigot-api = "1.8.8-R0.1-SNAPSHOT"
-dream-utilties = "1.5.8"
-okaeri-configs = "5.0.13"
+dream-utilties = "1.6.1"
+okaeri-configs = "6.1.0-beta.4"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
