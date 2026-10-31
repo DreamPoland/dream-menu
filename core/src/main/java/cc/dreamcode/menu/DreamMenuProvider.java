@@ -17,4 +17,24 @@ public interface DreamMenuProvider<D, T, P> {
     P createPaginated(@NonNull D d);
 
     P createPaginated(@NonNull D d, @NonNull Consumer<D> consumer);
+
+    default P createPaginated(@NonNull String title, int rows) {
+        return this.createPaginated(this.createDefault(title, rows));
+    }
+
+    default P createPaginated(@NonNull String title, int rows, @NonNull Consumer<P> consumer) {
+        final P paginated = this.createPaginated(this.createDefault(title, rows));
+        consumer.accept(paginated);
+        return paginated;
+    }
+
+    default P createPaginated(@NonNull T type, @NonNull String title) {
+        return this.createPaginated(this.createDefault(type, title));
+    }
+
+    default P createPaginated(@NonNull T type, @NonNull String title, @NonNull Consumer<P> consumer) {
+        final P paginated = this.createPaginated(this.createDefault(type, title));
+        consumer.accept(paginated);
+        return paginated;
+    }
 }

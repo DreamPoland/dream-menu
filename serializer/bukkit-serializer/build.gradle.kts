@@ -8,6 +8,7 @@ dependencies {
 
     // -- spigot api -- (base)
     compileOnly(libs.spigot.api)
+    testImplementation(libs.spigot.api)
 
     // -- okaeri-config --
     implementation(libs.okaeri.configs)

@@ -19,8 +19,8 @@ allprojects {
 
 subprojects {
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
 
         withSourcesJar()
         withJavadocJar()
@@ -41,6 +41,15 @@ subprojects {
         annotationProcessor(rootProject.libs.lombok)
         testCompileOnly(rootProject.libs.lombok)
         testAnnotationProcessor(rootProject.libs.lombok)
+
+        testImplementation(rootProject.libs.junit.jupiter)
+        testImplementation(rootProject.libs.mockito.core)
+        testImplementation(rootProject.libs.mockito.junit.jupiter)
+        testRuntimeOnly(rootProject.libs.junit.platform.launcher)
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
     }
 
     publishing {

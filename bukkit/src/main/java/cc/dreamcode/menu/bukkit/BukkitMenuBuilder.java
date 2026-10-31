@@ -1,7 +1,7 @@
 package cc.dreamcode.menu.bukkit;
 
-import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.menu.DreamMenuBuilder;
+import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import lombok.NonNull;
 import org.bukkit.event.inventory.InventoryType;
@@ -18,6 +18,75 @@ public class BukkitMenuBuilder extends DreamMenuBuilder<BukkitMenu, InventoryTyp
 
     public BukkitMenuBuilder(@NonNull InventoryType inventoryType, @NonNull String name, Map<Integer, ItemStack> items) {
         super(inventoryType, name, inventoryType.getDefaultSize(), items == null ? new HashMap<>() : items);
+    }
+
+    @Override
+    public BukkitMenuBuilder setItem(int slot, @NonNull ItemStack item) {
+        final int maxSize = this.getInventoryType().equals(InventoryType.CHEST)
+                ? this.getRows() * 9
+                : this.getInventoryType().getDefaultSize();
+
+        if (slot >= 0 && slot < maxSize) {
+            super.setItem(slot, item);
+        }
+
+        return this;
+    }
+
+    public BukkitMenuBuilder setItem(int slot, @NonNull ItemBuilder itemBuilder) {
+        return this.setItem(slot, itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder setItem(int x, int z, @NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.setItem(x, z, itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder setItem(int[] slots, @NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.setItem(slots, itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillBackground(@NonNull ItemBuilder itemBuilder) {
+        return this.fillBackground(itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillRow(int row, @NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.fillRow(row, itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillColumn(int column, @NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.fillColumn(column, itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillTop(@NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.fillTop(itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillBottom(@NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.fillBottom(itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillTopAndBottom(@NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.fillTopAndBottom(itemBuilder.toItemStack());
+    }
+
+    public BukkitMenuBuilder fillMargin(@NonNull ItemBuilder itemBuilder) {
+        return (BukkitMenuBuilder) this.fillMargin(itemBuilder.toItemStack());
+    }
+
+    @Override
+    public BukkitMenuBuilder fillBackground(@NonNull ItemStack item) {
+        if (!this.getInventoryType().equals(InventoryType.CHEST)) {
+            final int defaultSize = this.getInventoryType().getDefaultSize();
+            for (int slot = 0; slot < defaultSize; slot++) {
+                if (!this.getItems().containsKey(slot)) {
+                    this.getItems().put(slot, item);
+                }
+            }
+            return this;
+        }
+
+        super.fillBackground(item);
+        return this;
     }
 
     @Override

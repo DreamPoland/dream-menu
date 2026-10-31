@@ -8,6 +8,7 @@ import cc.dreamcode.utilities.bukkit.StringColorUtil;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -16,9 +17,11 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginated, ItemStack, InventoryClickEvent, DefaultMenuHolder, HumanEntity> {
@@ -107,7 +110,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     public BukkitMenu(@NonNull String title, int rows, int page) {
         this.inventoryType = InventoryType.CHEST;
         this.title = title;
-        this.size = rows > 6 ? 6 * 9 : rows * 9;
+        this.size = Math.max(1, Math.min(rows, 6)) * 9;
         this.placeholders = new HashMap<>();
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = false;
@@ -129,7 +132,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, int page) {
         this.inventoryType = InventoryType.CHEST;
         this.title = title;
-        this.size = rows > 6 ? 6 * 9 : rows * 9;
+        this.size = Math.max(1, Math.min(rows, 6)) * 9;
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = true;
@@ -152,7 +155,7 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     public BukkitMenu(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, int page, boolean colorizePlaceholders) {
         this.inventoryType = InventoryType.CHEST;
         this.title = title;
-        this.size = rows > 6 ? 6 * 9 : rows * 9;
+        this.size = Math.max(1, Math.min(rows, 6)) * 9;
         this.placeholders = placeholders;
         this.defaultMenuHolder = new DefaultMenuHolder(this);
         this.colorizePlaceholders = colorizePlaceholders;
@@ -227,20 +230,24 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         return this;
     }
 
-
     @Override
     public BukkitMenu setItem(int slot, @NonNull ItemStack itemStack) {
+        if (slot < 0 || slot >= this.size) {
+            return this;
+        }
+
         this.inventory.setItem(slot, itemStack);
-
         return this;
-
     }
 
     @Override
     public BukkitMenu setItem(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        if (slot < 0 || slot >= this.size) {
+            return this;
+        }
+
         this.defaultMenuHolder.setActionOnSlot(slot, event);
         this.inventory.setItem(slot, itemStack);
-
         return this;
     }
 
@@ -279,6 +286,30 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     }
 
     @Override
+    public BukkitMenu removeItem(int slot) {
+        if (slot >= 0 && slot < this.size) {
+            this.inventory.setItem(slot, null);
+            this.defaultMenuHolder.removeActionOnSlot(slot);
+        }
+        return this;
+    }
+
+    @Override
+    public Optional<ItemStack> getItem(int slot) {
+        if (slot < 0 || slot >= this.size) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(this.inventory.getItem(slot));
+    }
+
+    @Override
+    public boolean hasItem(int slot) {
+        return this.getItem(slot)
+                .map(item -> item.getType() != Material.AIR)
+                .orElse(false);
+    }
+
+    @Override
     public BukkitMenu fillInventoryWith(@NonNull ItemStack itemStack) {
         for (int slot = 0; slot < this.size; slot++) {
             if (this.inventory.getItem(slot) == null) {
@@ -302,6 +333,78 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     }
 
     @Override
+    public BukkitMenu fillBottom(@NonNull ItemStack itemStack) {
+        final int rows = this.size / 9;
+        return this.fillRow(rows, itemStack);
+    }
+
+    @Override
+    public BukkitMenu fillBottom(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        final int rows = this.size / 9;
+        return this.fillRow(rows, itemStack, event);
+    }
+
+    @Override
+    public BukkitMenu fillMargin(@NonNull ItemStack itemStack) {
+        final int rows = this.size / 9;
+        for (int slot : MenuUtil.countMarginSlots(rows)) {
+            if (this.inventory.getItem(slot) == null) {
+                this.inventory.setItem(slot, itemStack);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public BukkitMenu fillMargin(@NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        final int rows = this.size / 9;
+        for (int slot : MenuUtil.countMarginSlots(rows)) {
+            if (this.inventory.getItem(slot) == null) {
+                this.inventory.setItem(slot, itemStack);
+                this.defaultMenuHolder.setActionOnSlot(slot, event);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public BukkitMenu fillColumn(int column, @NonNull ItemStack itemStack) {
+        final int rows = this.size / 9;
+        for (int slot : MenuUtil.countColumnSlots(column, rows)) {
+            this.setItem(slot, itemStack);
+        }
+        return this;
+    }
+
+    @Override
+    public BukkitMenu fillColumn(int column, @NonNull ItemStack itemStack, @NonNull Consumer<InventoryClickEvent> event) {
+        final int rows = this.size / 9;
+        for (int slot : MenuUtil.countColumnSlots(column, rows)) {
+            this.setItem(slot, itemStack, event);
+        }
+        return this;
+    }
+
+    @Override
+    public BukkitMenu setActionOnSlot(int slot, @NonNull Consumer<InventoryClickEvent> event) {
+        if (slot >= 0 && slot < this.size) {
+            this.defaultMenuHolder.setActionOnSlot(slot, event);
+        }
+        return this;
+    }
+
+    @Override
+    public BukkitMenu removeActionOnSlot(int slot) {
+        this.defaultMenuHolder.removeActionOnSlot(slot);
+        return this;
+    }
+
+    @Override
+    public List<HumanEntity> getViewers() {
+        return new ArrayList<>(this.inventory.getViewers());
+    }
+
+    @Override
     public DefaultMenuHolder getHolder() {
         return this.defaultMenuHolder;
     }
@@ -310,6 +413,18 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
     public BukkitMenu open(@NonNull HumanEntity humanEntity) {
         this.getHolder().open(humanEntity);
 
+        return this;
+    }
+
+    @Override
+    public BukkitMenu close(@NonNull HumanEntity humanEntity) {
+        humanEntity.closeInventory();
+        return this;
+    }
+
+    @Override
+    public BukkitMenu closeAll() {
+        this.getViewers().forEach(HumanEntity::closeInventory);
         return this;
     }
 
@@ -325,13 +440,13 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         return this;
     }
 
-    public BukkitMenu cloneMenu(int slot) {
+    public BukkitMenu cloneMenu(int page) {
         final BukkitMenu bukkitMenu;
         if (this.inventoryType.equals(InventoryType.CHEST)) {
-            bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.size / 9, slot, this.colorizePlaceholders);
+            bukkitMenu = new BukkitMenu(this.title, this.placeholders, this.size / 9, page, this.colorizePlaceholders);
         }
         else {
-            bukkitMenu = new BukkitMenu(this.inventoryType, this.title, this.placeholders, slot, this.colorizePlaceholders);
+            bukkitMenu = new BukkitMenu(this.inventoryType, this.title, this.placeholders, page, this.colorizePlaceholders);
         }
 
         bukkitMenu.setCancelInventoryClick(this.cancelInventoryClick);

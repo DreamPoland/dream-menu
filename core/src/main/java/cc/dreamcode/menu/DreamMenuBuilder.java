@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Getter
@@ -30,6 +31,40 @@ public abstract class DreamMenuBuilder<B, T, I> {
         return this;
     }
 
+    public DreamMenuBuilder<B, T, I> setItem(int[] slots, @NonNull I i) {
+        for (int slot : slots) {
+            this.setItem(slot, i);
+        }
+        return this;
+    }
+
+    public DreamMenuBuilder<B, T, I> setItem(@NonNull Iterable<Integer> slots, @NonNull I i) {
+        slots.forEach(slot -> this.setItem(slot, i));
+        return this;
+    }
+
+    public DreamMenuBuilder<B, T, I> removeItem(int slot) {
+        this.items.remove(slot);
+        return this;
+    }
+
+    public DreamMenuBuilder<B, T, I> removeItem(int x, int z) {
+        return this.removeItem(MenuUtil.countSlot(x, z));
+    }
+
+    public DreamMenuBuilder<B, T, I> clearItems() {
+        this.items.clear();
+        return this;
+    }
+
+    public Optional<I> getItem(int slot) {
+        return Optional.ofNullable(this.items.get(slot));
+    }
+
+    public boolean hasItem(int slot) {
+        return this.items.containsKey(slot);
+    }
+
     public DreamMenuBuilder<B, T, I> fillBackground(@NonNull I i) {
         for (int slot = 0; slot < this.rows * 9; slot++) {
             if (!this.items.containsKey(slot)) {
@@ -37,6 +72,24 @@ public abstract class DreamMenuBuilder<B, T, I> {
             }
         }
 
+        return this;
+    }
+
+    public DreamMenuBuilder<B, T, I> fillRow(int row, @NonNull I i) {
+        for (int slot : MenuUtil.countRowSlots(row)) {
+            if (!this.items.containsKey(slot)) {
+                this.items.put(slot, i);
+            }
+        }
+        return this;
+    }
+
+    public DreamMenuBuilder<B, T, I> fillColumn(int column, @NonNull I i) {
+        for (int slot : MenuUtil.countColumnSlots(column, this.rows)) {
+            if (!this.items.containsKey(slot)) {
+                this.items.put(slot, i);
+            }
+        }
         return this;
     }
 

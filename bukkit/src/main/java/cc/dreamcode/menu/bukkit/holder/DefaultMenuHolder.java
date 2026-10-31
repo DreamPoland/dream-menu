@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public final class DefaultMenuHolder implements BukkitMenuHolder {
 
-    private final BukkitMenu bukkitMenu;
+    @Getter private final BukkitMenu bukkitMenu;
 
     @Getter @Setter private boolean cancelInventoryClick = true;
     @Getter @Setter private boolean disposeWhenClose = false;
@@ -66,22 +67,26 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
         if (event instanceof InventoryClickEvent) {
             final InventoryClickEvent inventoryClickEvent = (InventoryClickEvent) event;
 
+            if (this.cancelInventoryClick) {
+                inventoryClickEvent.setCancelled(true);
+            }
+
             if (this.inventoryClickEvent != null) {
                 this.inventoryClickEvent.accept(inventoryClickEvent);
             }
 
-            this.inventoryActions.getOrDefault(inventoryClickEvent.getRawSlot(), e -> {
-                if (this.cancelInventoryClick) {
-                    e.setCancelled(true);
+            final int rawSlot = inventoryClickEvent.getRawSlot();
+            if (rawSlot >= 0 && rawSlot < this.getInventory().getSize()) {
+                final Consumer<InventoryClickEvent> action = this.inventoryActions.get(rawSlot);
+                if (action != null) {
+                    action.accept(inventoryClickEvent);
                 }
-            }).accept(inventoryClickEvent);
+            }
 
             if (this.postInventoryClickEvent != null) {
                 this.postInventoryClickEvent.accept(inventoryClickEvent);
             }
-        }
-
-        if (this.cancelInventoryClick) {
+        } else if (this.cancelInventoryClick) {
             event.setCancelled(true);
         }
     }
@@ -93,12 +98,25 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
         }
 
         if (this.disposeWhenClose) {
-            this.dispose();
+            final int viewerCount = this.getInventory().getViewers().size();
+            if (viewerCount == 0 || (viewerCount == 1 && this.getInventory().getViewers().contains(event.getPlayer()))) {
+                this.dispose();
+            }
         }
     }
 
     @Override
     public void handleDrag(@NonNull InventoryDragEvent event) {
+        if (this.cancelInventoryClick) {
+            final int topInventorySize = this.getInventory().getSize();
+            for (int rawSlot : event.getRawSlots()) {
+                if (rawSlot < topInventorySize) {
+                    event.setCancelled(true);
+                    break;
+                }
+            }
+        }
+
         if (this.inventoryDragEvent != null) {
             this.inventoryDragEvent.accept(event);
         }
@@ -106,8 +124,8 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     @Override
     public void dispose() {
+        new ArrayList<>(this.getInventory().getViewers()).forEach(HumanEntity::closeInventory);
         this.getInventory().clear();
         this.inventoryActions.clear();
     }
-
 }

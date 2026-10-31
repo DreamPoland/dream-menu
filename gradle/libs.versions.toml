@@ -1,8 +1,10 @@
 [versions]
 lombok = "1.18.46"
 spigot-api = "1.8.8-R0.1-SNAPSHOT"
-dream-utilties = "1.6.1"
+dream-utilties = "2.0.1"
 okaeri-configs = "6.1.0-beta.4"
+junit-jupiter = "5.10.2"
+mockito = "5.11.0"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
@@ -10,3 +12,7 @@ spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot-api" }
 dream-utilties = { module = "cc.dreamcode:utilities", version.ref = "dream-utilties" }
 dream-utilties-bukkit = { module = "cc.dreamcode:utilities-bukkit", version.ref = "dream-utilties" }
 okaeri-configs = { module = "eu.okaeri:okaeri-configs-core", version.ref = "okaeri-configs" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }

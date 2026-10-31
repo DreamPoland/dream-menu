@@ -9,17 +9,22 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, InventoryType, BukkitMenuPaginated> {
 
     private static BukkitMenuProvider INSTANCE;
+    private static boolean LISTENER_REGISTERED = false;
 
     public BukkitMenuProvider(@NonNull Plugin plugin) {
         INSTANCE = this;
 
-        final PluginManager pluginManager = plugin.getServer().getPluginManager();
-        pluginManager.registerEvents(new BukkitMenuListener(), plugin);
+        if (!LISTENER_REGISTERED) {
+            final PluginManager pluginManager = plugin.getServer().getPluginManager();
+            pluginManager.registerEvents(new BukkitMenuListener(), plugin);
+            LISTENER_REGISTERED = true;
+        }
     }
 
     public static BukkitMenuProvider create(@NonNull Plugin plugin) {
@@ -39,6 +44,17 @@ public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, I
         return bukkitMenu;
     }
 
+    public BukkitMenu createDefault(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows) {
+        return new BukkitMenu(title, placeholders, rows, 0);
+    }
+
+    public BukkitMenu createDefault(@NonNull String title, @NonNull Map<String, Object> placeholders, int rows, @NonNull Consumer<BukkitMenu> consumer) {
+        final BukkitMenu bukkitMenu = new BukkitMenu(title, placeholders, rows, 0);
+
+        consumer.accept(bukkitMenu);
+        return bukkitMenu;
+    }
+
     @Override
     public BukkitMenu createDefault(@NonNull InventoryType type, @NonNull String title) {
         return new BukkitMenu(type, title, 0);
@@ -47,6 +63,17 @@ public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, I
     @Override
     public BukkitMenu createDefault(@NonNull InventoryType type, @NonNull String title, @NonNull Consumer<BukkitMenu> consumer) {
         final BukkitMenu bukkitMenu = new BukkitMenu(type, title, 0);
+
+        consumer.accept(bukkitMenu);
+        return bukkitMenu;
+    }
+
+    public BukkitMenu createDefault(@NonNull InventoryType type, @NonNull String title, @NonNull Map<String, Object> placeholders) {
+        return new BukkitMenu(type, title, placeholders, 0);
+    }
+
+    public BukkitMenu createDefault(@NonNull InventoryType type, @NonNull String title, @NonNull Map<String, Object> placeholders, @NonNull Consumer<BukkitMenu> consumer) {
+        final BukkitMenu bukkitMenu = new BukkitMenu(type, title, placeholders, 0);
 
         consumer.accept(bukkitMenu);
         return bukkitMenu;
@@ -62,6 +89,13 @@ public final class BukkitMenuProvider implements DreamMenuProvider<BukkitMenu, I
         consumer.accept(bukkitMenu);
 
         return new BukkitMenuPaginated(bukkitMenu);
+    }
+
+    public BukkitMenuPaginated createPaginatedWith(@NonNull BukkitMenu bukkitMenu, @NonNull Consumer<BukkitMenuPaginated> consumer) {
+        final BukkitMenuPaginated paginated = new BukkitMenuPaginated(bukkitMenu);
+        consumer.accept(paginated);
+
+        return paginated;
     }
 
     public static BukkitMenuProvider getInstance() {

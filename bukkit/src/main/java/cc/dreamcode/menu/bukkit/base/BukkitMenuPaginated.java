@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
 
     public BukkitMenuPaginated(@NonNull BukkitMenu menuPlatform) {
         this.menuPlatform = menuPlatform;
-        this.storageItemSlots = IntStream.rangeClosed(0, menuPlatform.getSize())
+        this.storageItemSlots = IntStream.range(0, menuPlatform.getSize())
                 .boxed()
                 .collect(Collectors.toList());
     }
@@ -56,6 +57,13 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
     @Override
     public List<Integer> getStorageItemSlots() {
         return this.storageItemSlots;
+    }
+
+    @Override
+    public BukkitMenuPaginated setStorageItemSlots(@NonNull List<Integer> storageItemSlots) {
+        this.storageItemSlots.clear();
+        this.storageItemSlots.addAll(storageItemSlots);
+        return this;
     }
 
     @Override
@@ -87,12 +95,23 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
 
     @Override
     public int getPlayerPage(@NonNull HumanEntity humanEntity) {
+        if (humanEntity.getOpenInventory() != null && humanEntity.getOpenInventory().getTopInventory() != null) {
+            final Inventory topInventory = humanEntity.getOpenInventory().getTopInventory();
+            for (Map.Entry<Integer, BukkitMenu> entry : this.bukkitMenuMap.entrySet()) {
+                if (entry.getValue().getInventory().equals(topInventory)) {
+                    return entry.getKey();
+                }
+            }
+        }
+
         return this.cacheSlotPlayerViewing.getOrDefault(humanEntity.getUniqueId(), 0);
     }
 
     @Override
     public BukkitMenuPaginated setNextPageSlot(int slot, @NonNull Consumer<HumanEntity> nextPageReach) {
-        this.menuPlatform.getHolder().setActionOnSlot(slot, e -> {
+        this.storageItemSlots.remove(Integer.valueOf(slot));
+
+        final Consumer<InventoryClickEvent> action = e -> {
             e.setCancelled(true);
 
             final HumanEntity humanEntity = e.getWhoClicked();
@@ -116,7 +135,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
             if (this.nextPagePostEvent != null) {
                 this.nextPagePostEvent.accept(humanEntity, nextPage);
             }
-        });
+        };
+
+        this.menuPlatform.getHolder().setActionOnSlot(slot, action);
+        this.bukkitMenuMap.values().forEach(menu -> menu.getHolder().setActionOnSlot(slot, action));
 
         return this;
     }
@@ -125,6 +147,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
     public BukkitMenuPaginated setNextPageSlot(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<HumanEntity> nextPageReach) {
         this.setNextPageSlot(slot, nextPageReach);
         this.getMenuPlatform().setItem(slot, itemStack);
+        this.bukkitMenuMap.values().forEach(menu -> menu.setItem(slot, itemStack));
 
         return this;
     }
@@ -147,7 +170,9 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
 
     @Override
     public BukkitMenuPaginated setPreviousPageSlot(int slot, @NonNull Consumer<HumanEntity> firstPageReach) {
-        this.menuPlatform.getHolder().setActionOnSlot(slot, e -> {
+        this.storageItemSlots.remove(Integer.valueOf(slot));
+
+        final Consumer<InventoryClickEvent> action = e -> {
             e.setCancelled(true);
 
             final HumanEntity humanEntity = e.getWhoClicked();
@@ -171,7 +196,10 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
             if (this.previousPagePostEvent != null) {
                 this.previousPagePostEvent.accept(humanEntity, previousPage);
             }
-        });
+        };
+
+        this.menuPlatform.getHolder().setActionOnSlot(slot, action);
+        this.bukkitMenuMap.values().forEach(menu -> menu.getHolder().setActionOnSlot(slot, action));
 
         return this;
     }
@@ -180,6 +208,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
     public BukkitMenuPaginated setPreviousPageSlot(int slot, @NonNull ItemStack itemStack, @NonNull Consumer<HumanEntity> firstPageReach) {
         this.setPreviousPageSlot(slot, firstPageReach);
         this.getMenuPlatform().setItem(slot, itemStack);
+        this.bukkitMenuMap.values().forEach(menu -> menu.setItem(slot, itemStack));
 
         return this;
     }
@@ -205,13 +234,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
         final int slot = this.addItem(bukkitMenu, itemStack, this.storageItemSlots);
         if (slot != -1) {
             if (event != null) {
-                bukkitMenu.getHolder().setActionOnSlot(slot, event.andThen(e -> {
-                    if (e.isCancelled()) {
-                        return;
-                    }
-
-                    bukkitMenu.getHolder().removeActionOnSlot(slot);
-                }));
+                bukkitMenu.getHolder().setActionOnSlot(slot, event);
             }
 
             return this;
@@ -224,18 +247,7 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
         }
 
         final BukkitMenu nextMenu = nextMenuRef.get();
-        final int nextMenuSlot = this.addItem(nextMenu, itemStack, this.storageItemSlots);
-        if (nextMenuSlot != -1 && event != null) {
-            nextMenu.getHolder().setActionOnSlot(nextMenuSlot, event.andThen(e -> {
-                if (e.isCancelled()) {
-                    return;
-                }
-
-                nextMenu.getHolder().removeActionOnSlot(nextMenuSlot);
-            }));
-        }
-
-        return this;
+        return this.addStorageItem(nextMenu, page + 1, itemStack, event);
     }
 
     @Override
@@ -282,6 +294,16 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
     }
 
     @Override
+    public BukkitMenuPaginated clearStorageItems() {
+        for (BukkitMenu menu : this.bukkitMenuMap.values()) {
+            for (int slot : this.storageItemSlots) {
+                menu.removeItem(slot);
+            }
+        }
+        return this;
+    }
+
+    @Override
     public BukkitMenuPaginated open(int page, @NonNull HumanEntity humanEntity) {
         BukkitMenu bukkitMenu = this.bukkitMenuMap.get(page);
         if (bukkitMenu == null) {
@@ -324,6 +346,18 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
                 .map(Map.Entry::getKey)
                 .ifPresent(page -> this.open(page, humanEntity));
 
+        return this;
+    }
+
+    @Override
+    public BukkitMenuPaginated close(@NonNull HumanEntity humanEntity) {
+        humanEntity.closeInventory();
+        return this;
+    }
+
+    @Override
+    public BukkitMenuPaginated closeAll() {
+        this.getViewers().forEach(HumanEntity::closeInventory);
         return this;
     }
 
