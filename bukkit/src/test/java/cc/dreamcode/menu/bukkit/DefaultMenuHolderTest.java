@@ -7,6 +7,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -54,6 +55,12 @@ class DefaultMenuHolderTest {
                     if (method.getName().equals("closeInventory")) {
                         playerClosed.set(true);
                         return null;
+                    }
+                    if (method.getName().equals("equals")) {
+                        return proxy == args[0];
+                    }
+                    if (method.getName().equals("hashCode")) {
+                        return System.identityHashCode(proxy);
                     }
                     return null;
                 }
@@ -269,5 +276,144 @@ class DefaultMenuHolderTest {
     void shouldCloseAllViewersFromMenu() {
         bukkitMenu.closeAll();
         assertTrue(playerClosed.get());
+    }
+
+    @Test
+    void shouldNotRecurseWhenDisposeWhenCloseIsTrueOnPaperLeaf() {
+        holder.setDisposeWhenClose(true);
+
+        AtomicInteger closeCount = new AtomicInteger(0);
+        // Simulate Paper/Leaf: calling humanEntity.closeInventory() synchronously triggers handleClose
+        HumanEntity paperPlayer = (HumanEntity) Proxy.newProxyInstance(
+                HumanEntity.class.getClassLoader(),
+                new Class<?>[]{HumanEntity.class},
+                (proxy, method, args) -> {
+                    if (method.getName().equals("closeInventory")) {
+                        closeCount.incrementAndGet();
+                        InventoryCloseEvent recursiveEvent = new InventoryCloseEvent(new InventoryView() {
+                            @Override
+                            public Inventory getTopInventory() {
+                                return topInventory;
+                            }
+
+                            @Override
+                            public Inventory getBottomInventory() {
+                                return bottomInventory;
+                            }
+
+                            @Override
+                            public HumanEntity getPlayer() {
+                                return (HumanEntity) proxy;
+                            }
+
+                            @Override
+                            public InventoryType getType() {
+                                return InventoryType.CHEST;
+                            }
+                        });
+                        holder.handleClose(recursiveEvent);
+                        return null;
+                    }
+                    if (method.getName().equals("equals")) {
+                        return proxy == args[0];
+                    }
+                    if (method.getName().equals("hashCode")) {
+                        return System.identityHashCode(proxy);
+                    }
+                    return null;
+                }
+        );
+
+        InventoryView paperView = new InventoryView() {
+            @Override
+            public Inventory getTopInventory() {
+                return topInventory;
+            }
+
+            @Override
+            public Inventory getBottomInventory() {
+                return bottomInventory;
+            }
+
+            @Override
+            public HumanEntity getPlayer() {
+                return paperPlayer;
+            }
+
+            @Override
+            public InventoryType getType() {
+                return InventoryType.CHEST;
+            }
+        };
+
+        // Player is still in viewers during InventoryCloseEvent in Paper/Leaf
+        Inventory paperInventory = (Inventory) Proxy.newProxyInstance(
+                Inventory.class.getClassLoader(),
+                new Class<?>[]{Inventory.class},
+                (proxy, method, args) -> {
+                    if (method.getName().equals("getSize")) {
+                        return 27;
+                    }
+                    if (method.getName().equals("clear")) {
+                        inventoryCleared.set(true);
+                        return null;
+                    }
+                    if (method.getName().equals("getViewers")) {
+                        return Collections.singletonList(paperPlayer);
+                    }
+                    return null;
+                }
+        );
+
+        try {
+            Field invField = BukkitMenu.class.getDeclaredField("inventory");
+            invField.setAccessible(true);
+            invField.set(bukkitMenu, paperInventory);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        InventoryCloseEvent event = new InventoryCloseEvent(paperView);
+        holder.handleClose(event);
+
+        // closeInventory should NOT have been called on the closing player
+        assertEquals(0, closeCount.get());
+        assertTrue(inventoryCleared.get());
+        assertTrue(holder.isDisposed());
+        assertTrue(bukkitMenu.isDisposed());
+    }
+
+    @Test
+    void shouldCancelClickWhenDisposed() {
+        holder.dispose();
+
+        InventoryClickEvent event = new InventoryClickEvent(
+                inventoryView,
+                InventoryType.SlotType.CONTAINER,
+                5,
+                ClickType.LEFT,
+                InventoryAction.PICKUP_ALL
+        );
+        event.setCancelled(false);
+
+        holder.handleClick(event);
+
+        assertTrue(event.isCancelled());
+    }
+
+    @Test
+    void shouldBeIdempotentOnMultipleDisposeCalls() {
+        assertFalse(holder.isDisposed());
+        holder.dispose();
+        assertTrue(holder.isDisposed());
+
+        playerClosed.set(false);
+        inventoryCleared.set(false);
+
+        holder.dispose();
+        // Since it's already disposed, it shouldn't try to close players or clear again
+        assertFalse(playerClosed.get());
+        assertFalse(inventoryCleared.get());
+        assertTrue(holder.isDisposed());
     }
 }

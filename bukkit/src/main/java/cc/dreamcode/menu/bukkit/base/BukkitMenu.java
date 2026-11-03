@@ -440,6 +440,11 @@ public final class BukkitMenu implements DreamMenu<BukkitMenu, BukkitMenuPaginat
         return this;
     }
 
+    @Override
+    public boolean isDisposed() {
+        return this.defaultMenuHolder.isDisposed();
+    }
+
     public BukkitMenu cloneMenu(int page) {
         final BukkitMenu bukkitMenu;
         if (this.inventoryType.equals(InventoryType.CHEST)) {

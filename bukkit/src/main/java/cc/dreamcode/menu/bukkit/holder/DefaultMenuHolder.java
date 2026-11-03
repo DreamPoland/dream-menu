@@ -13,8 +13,11 @@ import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     @Getter @Setter private boolean cancelInventoryClick = true;
     @Getter @Setter private boolean disposeWhenClose = false;
+    @Getter private boolean disposed = false;
 
     @Getter @Setter private Consumer<InventoryClickEvent> inventoryClickEvent;
     @Getter @Setter private Consumer<InventoryClickEvent> postInventoryClickEvent;
@@ -31,6 +35,7 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
     @Getter @Setter private Consumer<InventoryDragEvent> inventoryDragEvent;
 
     private final Map<Integer, Consumer<InventoryClickEvent>> inventoryActions = new HashMap<>();
+    private final Set<HumanEntity> closingEntities = Collections.newSetFromMap(new IdentityHashMap<>());
 
     /**
      * Get the object's inventory.
@@ -64,6 +69,11 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     @Override
     public void handleClick(@NonNull InventoryInteractEvent event) {
+        if (this.disposed) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (event instanceof InventoryClickEvent) {
             final InventoryClickEvent inventoryClickEvent = (InventoryClickEvent) event;
 
@@ -93,20 +103,39 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     @Override
     public void handleClose(@NonNull InventoryCloseEvent event) {
-        if (this.inventoryCloseEvent != null) {
-            this.inventoryCloseEvent.accept(event);
+        final HumanEntity player = event.getPlayer();
+        if (this.isViewerClosing(player)) {
+            return;
         }
 
-        if (this.disposeWhenClose) {
-            final int viewerCount = this.getInventory().getViewers().size();
-            if (viewerCount == 0 || (viewerCount == 1 && this.getInventory().getViewers().contains(event.getPlayer()))) {
-                this.dispose();
+        this.closingEntities.add(player);
+        try {
+            if (this.inventoryCloseEvent != null) {
+                this.inventoryCloseEvent.accept(event);
             }
+
+            if (this.disposeWhenClose && !this.disposed) {
+                final int viewerCount = this.getInventory().getViewers().size();
+                final boolean isLastViewer = viewerCount == 0
+                        || (viewerCount == 1 && this.containsViewer(player))
+                        || this.getInventory().getViewers().stream().allMatch(this::isViewerClosing);
+
+                if (isLastViewer) {
+                    this.dispose();
+                }
+            }
+        } finally {
+            this.closingEntities.remove(player);
         }
     }
 
     @Override
     public void handleDrag(@NonNull InventoryDragEvent event) {
+        if (this.disposed) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (this.cancelInventoryClick) {
             final int topInventorySize = this.getInventory().getSize();
             for (int rawSlot : event.getRawSlots()) {
@@ -124,8 +153,71 @@ public final class DefaultMenuHolder implements BukkitMenuHolder {
 
     @Override
     public void dispose() {
-        new ArrayList<>(this.getInventory().getViewers()).forEach(HumanEntity::closeInventory);
+        if (this.disposed) {
+            return;
+        }
+
+        this.disposed = true;
+
+        new ArrayList<>(this.getInventory().getViewers()).forEach(humanEntity -> {
+            if (this.isViewerClosing(humanEntity)) {
+                return;
+            }
+
+            humanEntity.closeInventory();
+        });
+
         this.getInventory().clear();
         this.inventoryActions.clear();
+    }
+
+    private boolean containsViewer(HumanEntity humanEntity) {
+        if (humanEntity == null) {
+            return false;
+        }
+
+        for (HumanEntity viewer : this.getInventory().getViewers()) {
+            if (viewer == humanEntity) {
+                return true;
+            }
+        }
+
+        try {
+            return this.getInventory().getViewers().contains(humanEntity);
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private boolean isViewerClosing(HumanEntity humanEntity) {
+        if (humanEntity == null) {
+            return false;
+        }
+
+        if (this.closingEntities.contains(humanEntity)) {
+            return true;
+        }
+
+        for (HumanEntity closing : this.closingEntities) {
+            if (closing == humanEntity) {
+                return true;
+            }
+
+            try {
+                if (closing.equals(humanEntity)) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+            }
+
+            try {
+                if (closing.getUniqueId() != null && closing.getUniqueId().equals(humanEntity.getUniqueId())) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+
+        return false;
     }
 }

@@ -164,4 +164,8 @@ public interface DreamMenu<R, T, I, E, H, P> {
     T toPaginated();
 
     R dispose();
+
+    default boolean isDisposed() {
+        return false;
+    }
 }

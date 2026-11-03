@@ -373,6 +373,14 @@ public class BukkitMenuPaginated implements DreamMenuPaginated<BukkitMenuPaginat
         return this;
     }
 
+    @Override
+    public boolean isDisposed() {
+        return this.bukkitMenuMap.values()
+                .stream()
+                .filter(Objects::nonNull)
+                .allMatch(BukkitMenu::isDisposed);
+    }
+
     private int addItem(@NonNull BukkitMenu bukkitMenu, @NonNull ItemStack itemStack, @NonNull List<Integer> applySlots) {
         for (int slot = 0; slot < bukkitMenu.getSize(); slot++) {
             if (!applySlots.contains(slot)) {

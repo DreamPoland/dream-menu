@@ -7,4 +7,8 @@ public interface DreamMenuHolder<P> {
     void open(@NonNull P customer);
 
     void dispose();
+
+    default boolean isDisposed() {
+        return false;
+    }
 }

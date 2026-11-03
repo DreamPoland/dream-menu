@@ -153,4 +153,8 @@ public interface DreamMenuPaginated<R, M, I, E, H> {
     R closeAll();
 
     R dispose();
+
+    default boolean isDisposed() {
+        return false;
+    }
 }
