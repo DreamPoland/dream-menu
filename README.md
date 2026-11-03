@@ -1,7 +1,7 @@
 # Dream-Menu
 
 [![Build](https://github.com/DreamPoland/dream-menu/actions/workflows/gradle.yml/badge.svg)](https://github.com/DreamPoland/dream-menu/actions/workflows/gradle.yml)
-[![Version](https://img.shields.io/badge/version-2.0.1-blue.svg)](https://repo.dreamcode.cc/releases)
+[![Version](https://img.shields.io/badge/version-2.0.2-blue.svg)](https://repo.dreamcode.cc/releases)
 [![Java](https://img.shields.io/badge/java-21-orange.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENCE)
 
@@ -32,10 +32,10 @@ repositories {
 
 dependencies {
     // Core Bukkit Inventory API
-    implementation("cc.dreamcode.menu:bukkit:2.0.1")
+    implementation("cc.dreamcode.menu:bukkit:2.0.2")
 
     // Optional: Okaeri Configs serialization
-    implementation("cc.dreamcode.menu:bukkit-serializer:2.0.1")
+    implementation("cc.dreamcode.menu:bukkit-serializer:2.0.2")
 }
 ```
 
@@ -48,10 +48,10 @@ repositories {
 
 dependencies {
     // Core Bukkit Inventory API
-    implementation "cc.dreamcode.menu:bukkit:2.0.1"
+    implementation "cc.dreamcode.menu:bukkit:2.0.2"
 
     // Optional: Okaeri Configs serialization
-    implementation "cc.dreamcode.menu:bukkit-serializer:2.0.1"
+    implementation "cc.dreamcode.menu:bukkit-serializer:2.0.2"
 }
 ```
 
@@ -75,14 +75,14 @@ dependencies {
     <dependency>
         <groupId>cc.dreamcode.menu</groupId>
         <artifactId>bukkit</artifactId>
-        <version>2.0.1</version>
+        <version>2.0.2</version>
     </dependency>
 
     <!-- Optional: Okaeri Configs serialization -->
     <dependency>
         <groupId>cc.dreamcode.menu</groupId>
         <artifactId>bukkit-serializer</artifactId>
-        <version>2.0.1</version>
+        <version>2.0.2</version>
     </dependency>
 </dependencies>
 ```
