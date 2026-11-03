@@ -4,7 +4,7 @@ spigot-api = "1.8.8-R0.1-SNAPSHOT"
 dream-utilties = "2.0.2"
 okaeri-configs = "6.1.0-beta.4"
 junit-jupiter = "5.10.2"
-mockito = "5.11.0"
+mockito = "5.24.0"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
